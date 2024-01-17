@@ -35,4 +35,4 @@ Programming Languages is an introduction to basic principles of defining, descri
 
 ### Communications
 
-All official communications for the class will be through [Canvas](https://canvas.ku.edu/courses/105419).
+All official communications for the class will be through [Canvas](https://canvas.ku.edu/courses/110075).
