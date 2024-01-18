@@ -7,6 +7,6 @@ Tue Jan 16
   : []()
 
 Thu Jan 18
-: Introduction
+: [What is an interpreter?]({{site.baseurl}}/notes/01-interpreter/)
   : []()
 
