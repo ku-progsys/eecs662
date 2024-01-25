@@ -44,18 +44,13 @@ You must pass both projects and homework, and exams separately to pass the class
 
 You will perform several projects that involve developing code using the Racket programming language. These projects are an exceptionally important part of the course and provide insight into building interpreters that cannot be gained from lectures or exams. Programming projects will be assigned every 1-2 weeks. Please use KU’s Canvas system for submissions.
 
-* Assignment 1 - TBD
-* Assignment 2 - TBD
-* Assignment 3 - TBD
-* Assignment 4 - TBD
-* Assignment 5 - TBD
-* Assignment 5 - TBD
+The [Assignments]({{site.baseurl}}/assignments) page will list all assignments for the class.
 
 ## Exams
 
 All exams are closed book, closed notes exams. Our final exam will be held as scheduled by KU.
 
-* Midterm Exam - Mar 7 in class
+* Midterm Exam - March 7 in class
 * Final Exam - TBD
 
 ## Classroom Policies

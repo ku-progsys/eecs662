@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Notes
-description: Notes
+title: Assignments
+description: Assignments
 has_children: true
-nav_order: 5
+nav_order: 4
 ---
 
 # Notes
