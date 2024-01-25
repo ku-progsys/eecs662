@@ -594,6 +594,412 @@ There is no type system in Racket, but we can conceptually still define what we 
 2
 ```
 
+## Symbols
+
+One of the built-in datatypes we will use often in Racket is that of a symbol. A symbol is just an atomic peice of data. A symbol is written using the `quote` notation `(quote symbol-name)`, which is abbreviated `'symbol-name`. What’s allowable as a symbol name follows the same rules as what’s allowable as a Racket identifier.
+
+Symbols don’t have a whole lot of operations. The main thing you do with symbols is tell them apart from eachother:
+
+```racket
+> (equal? 'fred 'fred)
+#t
+> (equal? 'fred 'wilma)
+#f
+```
+
+It is possible to convert between symbols and strings:
+
+```racket
+> (symbol->string 'fred)
+"fred"
+> (string->symbol "fred")
+'fred
+```
+
+There’s also a convient function that produces a symbol that is guaranteed to have not been used so far each time you call it:
+
+```racket
+> (gensym)
+'g2803
+> (gensym)
+'g2804
+> (gensym)
+'g2805
+```
+
+They can be used to define “enum” like datatypes:
+
+```racket
+; type Flintstone = 'fred | 'wilma | 'pebbles
+```
+
+You can use pattern matching to match symbols:
+
+```racket
+> (define (flintstone? x)
+    (match x
+      ['fred #t]
+      ['wilma #t]
+      ['pebbles #t]
+      [_ #f]))
+> (flintstone? 'fred)
+#t
+> (flintstone? 'barney)
+#f
+```
+
+There’s really not a precise analog to symbols in Haskell.
+
+## Quote, quasiquote, and unquote
+
+One of the distinguishing features of languages in the Lisp family (such as Scheme and Racket) is the `quote` operator and its closely related cousins `quasiquote`, `unquote`, and `unquote-splicing`.
+
+Let’s start with `quote`.
+
+The “tick” character `'d` is used as a shorthand for `(quote d)`.
+
+You’ve already seen it show up with symbols: `'x` is the symbol `x`. It also shows up in the notation for the empty list: `'()`.
+
+But you can also write quote around non-empty lists like `'(x y z)`. This makes a list of symbols. It is equivalent to saying `(list 'x 'y 'z)`.
+
+In fact, you can nest lists within the quoted list: `'((x) y (q r))`. This is equivalent to `(list (list 'x) 'y (list 'q 'r))`.
+
+Here’s another: `'(() (()) ((())))`. This is equivalent to
+
+```racket
+(list '() (list '()) (list (list '())))
+```
+
+So, anything you can write with quoted lists, you can write without quoted lists by pushing the quote inward until reaching a symbol or an empty set of parenthesis.
+
+You can also put strings, booleans, and numbers inside of a `quote`. As you push the quote inward, it simply disappears when reaching a string, boolean or number. So `'5` is just `5`. Likewise `'#t` is `#t` and `'"Fred"` is `"Fred"`.
+
+You can also write pairs with `quote`, which uses the `.` notation for separating the left and right part of the pair. For example, `'(1 . 2)` is equivalent to `(cons 1 2)`. If you write something like `'(1 2 3 . 4)`, what you are in effect saying is `(cons 1 (cons 2 (cons 3 4)))`, an improper list that ends in `4`.
+
+In essence, `quote` is a shorthand for conveniently constructing data and is a very concise notation for writing down ad-hoc data. It serves much the same purpose as formats like JSON and XML, except there’s even less noise.
+
+To summarize, with `quote`, you can construct
+
+* strings
+* booleans
+* numbers
+* symbols
+* and... pairs (or lists) of those things (including this one)
+
+The kind of things you can construct with the `quote` form are often called s-expressions, short for symbolic expressions.
+
+We can give a type definition for s-expressions:
+
+```racket
+; type S-Expr =
+; | String
+; | Boolean
+; | Number
+; | Symbol
+; | (Listof S-Expr)
+```
+
+The reason for this name is because anything you can write down as an expression, you can write down inside a `quote` to obtain a data representation of that expression. You can render an expression as a symbolic representation of itself.
+
+For example, `(+ 1 2)` is an expression. When run, it applies the function bound to the variable `+` to the arguments `1` and `2` and produces `3`. On the other hand: `'(+ 1 2)` constructs a peice of data, namely, a list of three elements. The first element is the symbol `+`, the second element is `2`, the third element is `3`.
+
+We will be using (subsets of) s-expressions extensively as our data representation of AST and IR expressions, so it’s important to gain a level of fluency with them now.
+
+Once you understand `quote`, moving on to `quasiquote`, `unquote`, and `unquote-splicing` are pretty straight-forward.
+
+Let’s start with `quasiquote`. The “backtick” character `` `d`` is used as a shorthand for `(quasiquote d)` and the “comma” character `,e` is shorthand for `(unquote e)`. The `(quasiquote d)` form means the same thing as `(quote d)`, with the exception that if `(unquote e)` appears anywhere inside `d`, then the expression `e` is evaluated and it’s value will be used in place of `(unquote e)`.
+
+This gives us the ability to “escape” out of a quoted peice of data and go back to expression mode.
+
+If we think of `quasiquote` like `quote` in terms of “pushing in” then the rules are exactly the same except that when a `quasiquote` is pushed up next to an `unquote`, the two “cancel out.” So `` `,e`` is just `e`.
+
+For example, `` `(+ 1 ,(+ 1 1))`` is equivalent to `(list '+ 1 (+ 1 1))`, which is equivalent to `(list '+ 1 2)`.
+
+So if `quote` signals us to stop interpreting things as expressions, but instead as data, `quasiquote` signals us to stop interpreting things as expression, but instead as data.. unless we encounter a unquote, in which case you go back to interpreting things as expressions.
+
+The last remaining peice is `unquote-splicing`, which is abbreviated with “comma-at”: `,@e` means `(unquote-splicing e)`. The `unquote-splicing` form is like `unquote` in that if it occurs within a `quasiquote`, it means we switch back in to expression mode. The difference is the expression must produce a list (or pair) and the elements of that list (or pair) are spliced in to the outer data.
+
+So for example, `` `(+ 1 ,@(map add1 '(2 3)))`` is equivalent to `(cons '+ (cons 1 (map add1 (list 2 3))))`, which is equivalent to `(list '+ 1 3 4)`, or `'(+ 1 3 4)`.
+
+If the expression inside the `unquote-splicing` produces something other than a pair, an error is signalled.
+
+## Poetry of s-expressions
+
+The use of structures lets us program in a style very similar to idiomatic Haskell programming. For each variant data type, we can define a structure type for each variant and use pattern matching to process such values.
+
+However, we are going to frequently employ a different idiom for programming with recursive variants which doesn’t rely on structures, but rather uses symbols in place of constructors and lists in place of fields.
+
+Let’s revisit the binary tree example, using this style.
+
+Notice that `leaf` structure is a kind of atomic data. It doesn’t contain anything and its only real purpose is to be distinguishable from `node` structures. On the other hand a `node` structure needs to be distinguishable from `leaf`s, but also contain 3 peices of data within it.
+
+We can formulate definition of binary trees using only symbols and lists as:
+
+```racket
+;; type BinaryTree = 'leaf | (list 'node Integer BinaryTree BinaryTree)
+```
+
+So the following are binary trees:
+
+```racket
+> 'leaf
+'leaf
+> (list 'node 3 'leaf 'leaf)
+'(node 3 leaf leaf)
+> (list 'node 3
+        (list 'node 7 'leaf 'leaf)
+        (list 'node 9 'leaf 'leaf))
+'(node 3 (node 7 leaf leaf) (node 9 leaf leaf))
+```
+
+This formulation has the added benefit that we write binary trees as s-expressions:
+
+```racket
+> 'leaf
+'leaf
+> '(node 3 leaf leaf)
+'(node 3 leaf leaf)
+> '(node 3
+         (node 7 leaf leaf)
+         (node 9 leaf leaf))
+'(node 3 (node 7 leaf leaf) (node 9 leaf leaf))
+```
+
+We re-write our functions to match this new datatype definition:
+
+```racket
+> (define (bt-empty? bt)
+    (match bt
+      ['leaf #t]
+      [(cons 'node _) #f]))
+> (bt-empty? 'leaf)
+#t
+> (bt-empty? '(node 3
+                    (node 7 leaf leaf)
+                    (node 9 leaf leaf)))
+#f
+> (define (bt-height bt)
+    (match bt
+      ['leaf 0]
+      [(list 'node _ left right)
+       (+ 1 (max (bt-height left)
+                 (bt-height right)))]))
+> (bt-height 'leaf)
+0
+> (bt-height '(node 3
+                    (node 7 leaf leaf)
+                    (node 9 leaf leaf)))
+2
+```
+
+We even can use quasiquote notation in patterns to write more concise definitions:
+
+```racket
+> (define (bt-empty? bt)
+    (match bt
+      [`leaf #t]
+      [`(node . ,_) #f]))
+> (bt-empty? 'leaf)
+#t
+> (bt-empty? '(node 3
+                    (node 7 leaf leaf)
+                    (node 9 leaf leaf)))
+#f
+> (define (bt-height bt)
+    (match bt
+      [`leaf 0]
+      [`(node ,_ ,left ,right)
+       (+ 1 (max (bt-height left)
+                 (bt-height right)))]))
+> (bt-height 'leaf)
+0
+> (bt-height '(node 3
+                    (node 7 leaf leaf)
+                    (node 9 leaf leaf)))
+2
+```
+
+Moreover, we can embrace quasiquotation at the type-level and write:
+
+```racket
+; type BinaryTree = `leaf | `(node ,Integer ,BinaryTree ,BinaryTree)
+```
+
+## Testing, modules, submodules
+
+We will take testing seriously in this class. Primarily this will take the form of unit tests, for which we will use the `rackunit` library. To use the library, you must `require` it.
+
+Here is a simple example:
+
+```racket
+> (require rackunit)
+> (check-equal? (add1 4) 5)
+> (check-equal? (* 2 3) 7)
+--------------------
+FAILURE
+name:       check-equal?
+location:   eval:76:0
+actual:     6
+expected:   7
+--------------------
+```
+
+The `check-equal?` function takes two arguments (and an optional third for a message to display should the test fail) and checks that the first argument produces something that is `equal?` to the expected outcome given as the second argument.
+
+There are many other forms of checks and utilities for building up larger test suites, but `check-equal?` will get us a long way.
+
+As a matter of coding style, we will place tests nearby the function they are testing and locate them within their own **module**. Let’s talk about modules for a minute.
+
+In Racket, a module is the basic unit of code organization. Every file is a module whose name is derived from the filename, but you can also write modules without saving them in a file. For example:
+
+```racket
+> (module bt racket
+    (provide bt-height)
+    (define (bt-height bt)
+      (match bt
+        [`leaf 0]
+        [`(node ,_ ,left ,right)
+         (+ 1 (max (bt-height left)
+                   (bt-height right)))])))
+```
+
+This declares a module named bt. It provides a single value named bt-height.
+
+We can require the module from the REPL to gain access to the modules provided values:
+
+```racket
+> (require 'bt)
+> (bt-height 'leaf)
+0
+```
+
+We could have also used the #lang racket shorthand for `(module bt racket ...)` and saved this in a file called `bt.rkt`. To import from a file in the current directory, you’d write `(require "bt.rkt")`. But this doesn’t work well in REPL.
+
+For the most part we will organize our programs into single module files using the #lang racket shorthand. But we will place tests within a “sub”-module, i.e. a module nested inside of the module that contains the code it tests. We will use a special form called `module+` which declares a submodule that has access to the enclosing module. Moreover, repeated uses of `module+` will add content to the submodule. By convention, we will name the testing submodule `test`.
+
+So here’s a second version of the `bt` module with unit tests included (and more code). Note the use of `all-defined-out` to provide everything:
+
+```racket
+> (module bt2 racket
+    ; provides everything defined in module
+    (provide (all-defined-out))
+  
+    (module+ test
+      (require rackunit))
+  
+    (define (bt-empty? bt)
+      (match bt
+        ['leaf #t]
+        [(cons 'node _) #f]))
+  
+    (module+ test
+      (check-equal? (bt-empty? 'leaf) #t)
+      (check-equal? (bt-empty? '(node 3
+                                      (node 7 leaf leaf)
+                                      (node 9 leaf leaf)))
+                    #f))
+  
+    (define (bt-height bt)
+      (match bt
+        [`leaf 0]
+        [`(node ,_ ,left ,right)
+         (+ 1 (max (bt-height left)
+                   (bt-height right)))]))
+  
+    (module+ test
+      (check-equal? (bt-height 'leaf) 0)
+      ; intentionally wrong test:
+      (check-equal? (bt-height '(node 3 leaf leaf)) 2)))
+```
+
+Requiring this module with make bt-height, but _it will not run the tests_:
+
+```racket
+> (require 'bt2)
+```
+
+Running the tests only happens when the test submodule is required:
+
+```racket
+> (require (submod 'bt2 test))
+--------------------
+
+FAILURE
+name:       check-equal?
+location:   eval:80:0
+actual:     1
+expected:   2
+--------------------
+```
+
+Putting it all together, we can write the following code and save it in a file called bt.rkt. (You can click the tiny clipboard icon on top-right to copy it.)
+
+```racket
+  #lang racket
+  (provide (all-defined-out))
+   
+  (module+ test
+    (require rackunit))
+   
+  ;; type Bt =
+  ;; | `leaf
+  ;; | `(node ,Integer ,Bt ,Bt)
+   
+  ;; Bt -> Boolean
+  ;; Is the binary tree empty?
+  (define (bt-empty? bt)
+    (match bt
+      ['leaf #t]
+      [(cons 'node _) #f]))
+   
+  (module+ test
+    (check-equal? (bt-empty? 'leaf) #t)
+    (check-equal? (bt-empty? '(node 3
+                                    (node 7 leaf leaf)
+                                    (node 9 leaf leaf)))
+                  #f))
+   
+  ;; Bt -> Natural
+  ;; Compute the height of a binary tree
+  (define (bt-height bt)
+    (match bt
+      [`leaf 0]
+      [`(node ,_ ,left ,right)
+       (+ 1 (max (bt-height left)
+                 (bt-height right)))]))
+   
+  (module+ test
+    (check-equal? (bt-height 'leaf) 0)
+    (check-equal? (bt-height '(node 3 leaf leaf)) 1)
+    (check-equal? (bt-height '(node 2 leaf (node 1 leaf leaf)))
+                  2))
+```
+
+This code follows a coding style that we will use in this course:
+
+* it’s organized in a module,
+* data type definitions occur at the top of the file,
+* it uses a test submodule to group unit tests,
+* tests occur immediately after the functions they test,
+* functions are annotated with type signatures and short purpose statements, and
+* indentation follows standard conventions (which DrRacket can apply for you).
+
+From the command line, you can run a module’s tests using the Racket command line testing tool `raco test`:
+
+```sh
+$ raco test bt.rkt
+raco test: (submod "bt.rkt" test)
+5 tests passed
+```
+
+Or simply give a directory name and test everything within that directory:
+
+```sh
+$ raco test .
+raco test: (submod "./bt.rkt" test)
+5 tests passed
+```
+
 ---
 
 _These notes are adapted from [CMSC430 at UMD](https://www.cs.umd.edu/class/spring2022/cmsc430/OCaml_to_Racket.html)._

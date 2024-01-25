@@ -7,6 +7,5 @@ Tue Jan 23
   : []()
 
 Thu Jan 25
-: 
+: [From Haskell to Racket - II]({{site.baseurl}}/notes/02-hs2rkt/)
   : []()
-
