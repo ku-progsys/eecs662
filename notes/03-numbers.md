@@ -1,8 +1,7 @@
 ---
 layout: page
-# parent: Notes
+parent: Notes
 title: "03. Amount: A Language of Numbers"
-nav_exclude: true
 ---
 
 # Amount: A Language of Numbers
@@ -193,16 +192,16 @@ Recall the statement for interpreter correctness, which states our interpreter w
 One of the ways to specify the meaning of programs is through examples. We can turn this into tests. For Amount, the output of the program is the program itself.
 
 ```racket
-> (check-eqv? (interp (Int 42)) 42)
-> (check-eqv? (interp (Int 37)) 37)
-> (check-eqv? (interp (Int -8)) -8)
+> (check-eqv? (interp (parse 42)) 42)
+> (check-eqv? (interp (parse 37)) 37)
+> (check-eqv? (interp (parse -8)) -8)
 ```
 
 We can go one step further. Another way to specify programs is to check if it is in compliance with a reference interpreter. As the language we just built, Amount, is a subset of Racket we can also run amount programs in Racket. In other words, given a Amount program, if our interpreter agrees with Racket, we have a correct interpreter.
 
 We have the following equivalence:
 
-`(interp e)` _equals_ `(eval e)`
+`(interp (parse e))` _equals_ `(eval e)`
 
 where `eval` runs a program in the Racket interpreter.
 
@@ -210,23 +209,23 @@ We can turn this in a property-based test, i.e. a function that computes a test 
 
 ```racket
 > (define (check-interp e)
-    (check-eqv? (interp e)
+    (check-eqv? (interp (parse e))
                 (eval e)))
-> (check-interp (Int 42))
-> (check-interp (Int 37))
-> (check-interp (Int -8))
+> (check-interp 42)
+> (check-interp 37)
+> (check-interp -8)
 ```
 
 This is a powerful testing technique when combined with random generation. Since our correctness claim should hold for all Amount programs, we can randomly generate any Amount program and check that it holds.
 
 ```racket
-> (check-compiler (Int (random 100)))
+> (check-interp (random 100))
 > (for ([i (in-range 10)])
-    (check-compiler (Int (random 10000))))
+    (check-interp (random 10000)))
 ```
 
-The last expression is taking 10 samples from the space of Amount programs in [0,10000) and checking the compiler correctness claim on them. If the claim doesn’t hold for any of these samples, a test failure would be reported.
+The last expression is taking 10 samples from the space of Amount programs in [0,10000) and checking the interpreter correctness claim on them. If the claim doesn’t hold for any of these samples, a test failure would be reported.
 
-Finding an input to `check-interp` that fails would refute the compiler correctness claim and mean that we have a bug. Such an input is called a **counter-example**.
+Finding an input to `check-interp` that fails would refute the interpreter correctness claim and mean that we have a bug. Such an input is called a **counter-example**.
 
-On the other hand we gain more confidence with each passing test. While passing tests increase our confidence, we cannot test all possible inputs this way, so we can’t be sure our compiler is correct by testing alone. To really be sure, we’d need to write a proof, but that’s beyond the scope of this class.
+On the other hand we gain more confidence with each passing test. While passing tests increase our confidence, we cannot test all possible inputs this way, so we can’t be sure our interpreter is correct by testing alone. To really be sure, we’d need to write a proof, but that’s beyond the scope of this class.
