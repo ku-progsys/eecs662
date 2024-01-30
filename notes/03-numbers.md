@@ -1,7 +1,8 @@
 ---
 layout: page
-parent: Notes
+# parent: Notes
 title: "03. Amount: A Language of Numbers"
+nav_exclude: true
 ---
 
 # Amount: A Language of Numbers
