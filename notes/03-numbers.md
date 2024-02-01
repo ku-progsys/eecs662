@@ -113,7 +113,7 @@ Even though the semantics for Amount is obvious, we can provide a formal definit
 
 An operational semantics is a mathematical definition that characterizes the meaning of programs. We will defined the semantics of Amount as a binary relation between programs and their meanings. So in the setting of Amount, this binary relation will be a set of pairs of expressions and integers. This relation will be defined inductively using inference rules. For such a simple language, just a single inference rule suffices:
 
-![Amount AST]({{site.baseurl}}/images/numbers-opsem.png)
+![Amount Int]({{site.baseurl}}/images/numbers-opsem.png)
 
 Here, we are defining a binary relation, called ![]({{site.baseurl}}/images/downarrow.png), and saying every integer literal expression is paired with the integer itself in the relation. So (Int 2) ![]({{site.baseurl}}/images/downarrow.png) 2 holds, (Int 5) ![]({{site.baseurl}}/images/downarrow.png) 5 holds, and so on.
 
