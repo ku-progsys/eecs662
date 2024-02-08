@@ -30,7 +30,7 @@ Arithmetic extends Amount to have some unary and binary operations. It contains 
 
 <!-- 
 \begin{array}{lccl}
-\textrm{Expressions} & e & ::= & \textrm{Integer} \mid \texttt{(add1 $e$)} \mid \texttt{(add1 $e$)} \\
+\textrm{Expressions} & e & ::= & \textrm{Integer} \mid \texttt{(add1 $e$)} \mid \texttt{(sub1 $e$)} \\
                      &   & \mid & \texttt{(+ $e$ $e$)} \mid \texttt{(- $e$ $e$)} \mid \texttt{(* $e$ $e$)} \mid \texttt{(/ $e$ $e$)}
 \end{array}
  -->
@@ -156,7 +156,7 @@ Recall that ![]({{site.baseurl}}/images/downarrow.png) is a relation. So we can 
 
 These rules are inductive. We start from the meaning of integers and if we have the meaning of an expression, we can construct the meaning of a larger expression.
 
-## Intepreter for Arithmetic
+## Interpreter for Arithmetic
 
 We can translate these operational semantics rules to an interpreter:
 
@@ -211,8 +211,6 @@ Here’s how to connect the dots between the semantics and interpreter: the inte
 * if _e1_ and _e2_ are expressions `(BinOp '+ e1 e2)`, then we recursively use the interpreter to compute _i1_ and _i2_ such that `(e1, i1)` and `(e2, i2)` are in ![]({{site.baseurl}}/images/downarrow.png). But now we can compute the right-hand-side by adding _i1_ to _i2_.
 
 This explanation of the correspondence is essentially a proof by induction of the interpreter’s correctness:
-
-Interpreter Correctness: For all Blackmail expressions e and integers i, if (e,i) in image, then (interp e) equals i.
 
 **Interpreter Correctness:** _For all expressions `e` and integers `i`, if `e` ![]({{site.baseurl}}/images/downarrow.png) `i`, then the interpreter `(interp e)` equals `i`._
 
