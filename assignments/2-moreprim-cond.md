@@ -6,9 +6,9 @@ title: 2. More Primitives and Conditionals
 
 # More Primitives and Conditionals
 
-The goal of this assignment is to extend the parser and interpreter of the Con language to extend the language with some features. We will call this language _Con+_. This will require you to change the language in a similar fashion as we have been doing in class.
+The goal of this assignment is to extend the parser and interpreter of the Con language with some features. We will call this language _Con+_. This will require you to change the language in a similar fashion as we have been doing in class.
 
-You are given a zip file on Canvas `hw2.zip` with a starter code for the assignment. This is same as the code for the [Con]({{site.baseurl}}/notes/06-booleans/) language from class. You should add your own test cases to ensure your submit is correct. Your tasked with extending the language to Con+ in the following ways:
+You are given a zip file on Canvas `hw2.zip` with a starter code for the assignment. This is same as the code for the [Con]({{site.baseurl}}/notes/06-booleans/) language from class. You should add your own test cases to ensure your submission is correct. Your tasked with extending the language to Con+ in the following ways:
 
 * Add few unary and binary primitive operations in the language,
 * Add conditional evaluation with `cond`
