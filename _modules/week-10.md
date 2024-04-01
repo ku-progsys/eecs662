@@ -7,6 +7,6 @@ Tue Mar 19
   : []()
 
 Thu Mar 21
-: Fun with Lambda
+: Lambda Calculus
   : []()
 
