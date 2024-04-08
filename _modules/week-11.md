@@ -3,7 +3,7 @@ title: Week 11
 ---
 
 Tue Mar 26
-: Midterm discussion and Lambda Calculus (cont.)
+: Midterm discussion and [Lambda Calculus (cont.)]({{site.baseurl}}/notes/11-lambda-calculus/)
   : []()
 
 Thu Mar 28

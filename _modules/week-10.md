@@ -7,6 +7,6 @@ Tue Mar 19
   : []()
 
 Thu Mar 21
-: Lambda Calculus
+: [Lambda Calculus]({{site.baseurl}}/notes/11-lambda-calculus/)
   : []()
 
