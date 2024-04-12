@@ -7,6 +7,6 @@ Tue Mar 26
   : []()
 
 Thu Mar 28
-: Programs as Data Structures
+: [Programs as Data Structures]({{site.baseurl}}/notes/12-programs-ds/)
   : []()
 

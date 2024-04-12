@@ -349,3 +349,14 @@ We can also run this through our interpreter as well to verify our interpreter i
 ## Y-Combinator
 
 **TODO: factorial example**
+
+```racket
+#lang lazy
+
+(define Y (λ (f) ((λ (x) (f (x x))) (λ (x) (f (x x))))))
+
+(Y (λ (fact)
+     (λ (n)
+       (if (zero? n) 1
+           (* n (fact (- n 1)))))))
+```
