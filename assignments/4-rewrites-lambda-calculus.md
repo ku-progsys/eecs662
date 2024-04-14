@@ -6,6 +6,8 @@ title: 4. Term Rewrites and Lambda Calculus
 
 # Term Rewrites and Lambda Calculus
 
+You are given a zip file on Canvas `hw4.zip` with a starter code for the assignment.
+
 The next two tasks require you to modify a `rewriter.rkt` file. These two tasks are based on the language we developed in class, but simplified further. This language does not have top-level definitions, only lambda functions. You may write any auxillary functions in order to solve the given tasks.
 
 ## Rewrite `cond` to sequence of `if`
