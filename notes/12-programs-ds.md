@@ -216,6 +216,8 @@ These rules are not exhaustive, but it gives you an idea of the kind of rules th
 
 Again, our `optimize` routine is calling itself recursively on the subexpression. Note, that all the optimizations we wrote are for the `BinOp` AST node, so our optimizations are only limited to `BinOp`s. The `BinOp` case calls `optimize-binop`, where we encode these rules. We check for the `-` operation, if both operands are same, the result is a `0`, or if the second operand is `0`, the result is the first operand. Note, our program must always return AST nodes and not the values directly. As we are rewriting programs, we have to take care to ensure we produce a program.
 
+**TODO:** add note about preserving semantics in optimization
+
 ### Substitution
 
 If you go back to let-bindings, we covered [substition]({{site.baseurl}}/notes/08-let-bindings/#substitution) to replace variables to their values. It is essentially the same idea we are using here. As we have discussed substition before, we will not cover it again, but you can connect the dots.
