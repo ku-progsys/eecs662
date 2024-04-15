@@ -38,8 +38,6 @@ Classroom tasks are weighted using the following scale:
 * Final Exam 20%
 * Assignments 60%
 
-You must pass both projects and homework, and exams separately to pass the class. If you score less than 60% on your projects and homework or less than 60% on your exams, you will not pass the course.
-
 ## Assignments
 
 You will perform several projects that involve developing code using the Racket programming language. These projects are an exceptionally important part of the course and provide insight into building interpreters that cannot be gained from lectures or exams. Programming projects will be assigned every 1-2 weeks. Please use KU’s Canvas system for submissions.
