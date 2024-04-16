@@ -76,4 +76,4 @@ For grading, your submitted interpreter will be tested on multiple programs draw
 
 ## Submitting
 
-You should submit on Canvas. You should submit a zip file with exactly the same structure (a con-plus folder). We will only use the `ast.rkt`, `parser.rkt`, and `interp.rkt` files for grading, so make sure all your work is contained there! You may add any function you need to these files, but **do not** rename the `parse` and `interp` functions.
+You should submit on Gradescope. You should submit three files: `ast.rkt`, `parser.rkt`, and `interp.rkt` files for grading, so make sure all your work is contained there! You may add any function you need to these files, but **do not** rename the `parse` and `interp` functions.

@@ -23,9 +23,9 @@ Note that running `racket hw1.rkt` from the command line will not run the tests.
 
 ## Submitting
 
-Submit your filled-in `hw1.rkt` file on Canvas. You can submit multiple times, but only the latest submission will be counted.
+Rename `hw1.rkt` to `main.rkt`. This step is important. Submit your filled-in `main.rkt` file on Gradescope. You can submit multiple times, but only the latest submission will be counted.
 
-You can `Cmd + F` or `Ctrl + F` for "TODO" through `hw1.rkt` to find if you have any remaining tasks.
+You can `Cmd + F` or `Ctrl + F` for "TODO" through your submission to find if you have any remaining tasks.
 
 ## Grading
 

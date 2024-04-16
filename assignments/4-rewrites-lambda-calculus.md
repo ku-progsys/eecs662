@@ -213,4 +213,4 @@ For grading, your submitted interpreter will be tested on multiple inputs that s
 
 ## Submitting
 
-You should submit on Canvas and GradeScope will autograde your assignment in a few minutes. You should submit two files: `rewriter.rkt` and `lambda-calculus.rkt`. You may add any auxiliary functions you need to these files, but do not rename the functions you are asked to write.
+Submit your work on GradeScope. You should submit two files: `rewriter.rkt` and `lambda-calculus.rkt`. You may add any auxiliary functions you need to these files, but do not rename the functions you are asked to write.
