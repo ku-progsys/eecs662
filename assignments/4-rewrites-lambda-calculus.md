@@ -213,4 +213,4 @@ For grading, your submitted interpreter will be tested on multiple inputs that s
 
 ## Submitting
 
-Submit your work on GradeScope. You should submit two files: `rewriter.rkt` and `lambda-calculus.rkt`. You may add any auxiliary functions you need to these files, but do not rename the functions you are asked to write.
+Submit your work on GradeScope. You should submit all Racket files: `ast.rkt`, `parser.rkt`, `interp.rkt`, `rewriter.rkt`, and `lambda-calculus.rkt`. You may add any auxiliary functions you need to these files, but do not rename the functions you are asked to write.
