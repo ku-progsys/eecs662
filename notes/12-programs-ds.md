@@ -216,7 +216,8 @@ These rules are not exhaustive, but it gives you an idea of the kind of rules th
 
 Again, our `optimize` routine is calling itself recursively on the subexpression. Note, that all the optimizations we wrote are for the `BinOp` AST node, so our optimizations are only limited to `BinOp`s. The `BinOp` case calls `optimize-binop`, where we encode these rules. We check for the `-` operation, if both operands are same, the result is a `0`, or if the second operand is `0`, the result is the first operand. Note, our program must always return AST nodes and not the values directly. As we are rewriting programs, we have to take care to ensure we produce a program.
 
-**TODO:** add note about preserving semantics in optimization
+**Note:** All optimizations have to be semantics preserving, i.e., the behavior of a program should not change after optimizations are applied. While the examples of optimization we have here are fairly simple, in general it is non-trivial to design optimizations and prove that they preserve the program behavior for all programs in the language.
+
 
 ### Substitution
 
