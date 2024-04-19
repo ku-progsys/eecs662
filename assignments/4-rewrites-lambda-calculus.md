@@ -193,7 +193,7 @@ Write a function `beta-reduce` that takes these arguments in the given order:
 * The identifier to be substituted
 * The parsed expression with which it will be substituted
 
-You can find more information and the algorithm for alpha-reduction [here]({{site.baseurl}}/notes/11-lambda-calculus/#beta-reductions).
+You can find more information and the algorithm for beta-reduction [here]({{site.baseurl}}/notes/11-lambda-calculus/#beta-reductions). You may use the `free?` and `alpha-reduce` functions you wrote above to write `beta-reduce`. To get a fresh variable name each time to pass to alpha reductions, you may use the [`gensym`](https://docs.racket-lang.org/reference/symbols.html#%28def._%28%28quote._~23~25kernel%29._gensym%29%29) function.
 
 ```racket
 ; x is substituted with (λ (x) (x x)) in (x x)
