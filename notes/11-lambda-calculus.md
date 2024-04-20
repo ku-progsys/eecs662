@@ -188,6 +188,39 @@ A lambda calculus expression (aka a "program") is "run" by computing a final res
 * `(λx.x)y` reduces to `y` (illustrating that `λx.x` is the identity function).
 * `(λx.xx)(λy.y)` reduces to `(λy.y)(λy.y)` reduces to `(λy.y)`; thus, we can say `(λx.xx)(λy.y)` evaluates to `(λy.y)`. Note that here we have applied a function to a function as an argument and the result is a function.
 
+Below is the behavior of beta reduction defined formally as the β function. The first argument is a term in which variables will be substituted. The second argument `y` is the variable whose occurence will be substituted. Finally, `N` is the term that will be substituted in places of `y`.
+
+Variables are substituted only when there names match.
+
+<!--
+\beta(\texttt{(Var $x$)}, y, N) =
+\begin{cases}
+N\ \text{if } x = y\\
+\texttt{(Var $x$)}\ \text{otherwise}
+\end{cases}
+-->
+![LC Beta reduction Var]({{site.baseurl}}/images/lc-beta-var.png)
+
+For lambda terms, if the argument `x` is the same name as the variable `y`, there is no need to substitute in the body (as the lambda term rebinds the variable). Conversely, there is a possiblity that `x` might occur in the lambda body `e` and in the expression `N`. In that case, we check if there are any free occurences of `x` in `N`. If there is none, the result is the substituted body of the lambda. Finally, if there are free occurences, we first alpha rename the free variables with the same name in `e` and then use the renamed term for substitution.
+
+<!--
+\beta(\texttt{(Lam $x$ $e$)}, y, N) =
+\begin{cases}
+\texttt{(Lam $x$ $e$)}\ \text{if } x = y\\
+\texttt{(Lam $x$ $\beta(e, y, N)$)}\ \text{if } x \neq y\text{ and } x\ \text{not free in } N\\
+\texttt{(Lam $x'$ $\beta(e', y, N)$)}\ \text{if } x \neq y, x\ \text{is free in } N,\\
+\qquad\qquad\qquad\qquad x' = \text{ fresh and } e' = \alpha(e, x, x')
+\end{cases}
+-->
+![LC Beta reduction Lam]({{site.baseurl}}/images/lc-beta-lam.png)
+
+Function application is relatively simple. We just need to beta reduce on both the function and the argument expression.
+
+<!--
+\beta(\texttt{(App $e_1$ $e_2$)}, y, N) = \texttt{(App $\beta(e_1, y, N)\ \beta(e_1, y, N)$)}
+-->
+![LC Beta reduction App]({{site.baseurl}}/images/lc-beta-app.png)
+
 ### Alpha Reductions
 
 Note that a variable may occur more than once in some lambda expression; some occurrences may be free and some may be bound, so the variable itself is _both_ free and bound in the expression, but each individual _occurrence_ is either free or bound (not both). For example, the free variables of the following lambda expression are `{y,x}` and the bound variables are `{y}`:
@@ -225,7 +258,36 @@ The issue here is that a variable `y` that is free in the original argument to a
 
 To solve this, we use a technique called _alpha reduction_. The key idea is that formal parameter names are unimportant; so rename them as needed to avoid capture. Alpha reduction is used to modify expressions of the form `λx.e`. It renames all the occurrences of `x` that are free in `e` to some other variable `z` that does not occur in `e` (and then `λx` is changed to `λz`). For example, consider `λx.λy.x + y` (this is of the form `λx.e`). Variable `z` is not in `e`, so we can rename `x` to `z`; i.e., `λx.λy.x + y` alpha-reduces to `λz.λy.z + y`.
 
-Here is pseudo code for alpha reduction.
+Here is alpha reduction formally defined as the α function.
+
+For a variable, it is renamed only if it has the same name as the variable being renamed.
+
+<!--
+\alpha(\texttt{(Var $x$)}, y, z) =
+\begin{cases}
+\texttt{(Var $z$)}\ \text{if } x = y\\
+\texttt{(Var $y$)}\ \text{otherwise}
+\end{cases}
+-->
+![LC alpha reduction Var]({{site.baseurl}}/images/lc-alpha-var.png)
+
+For lambda terms, if the variable being replaced is captured, then there is no need to rename. Otherwise, it is renamed in the body of the lambda term.
+
+<!--
+\alpha(\texttt{(Lam $x$ $e$)}, y, z) =
+\begin{cases}
+\texttt{(Lam $x$ $e$)}\ \text{if } x = y\\
+\texttt{(Lam $x$ $\alpha(e, y, z)$)}\ \text{otherwise}
+\end{cases}
+-->
+![LC alpha reduction Lam]({{site.baseurl}}/images/lc-alpha-lam.png)
+
+For function application, the rename is carried out both in the function and the argument.
+
+<!--
+\alpha(\texttt{(App $e_1$ $e_2$)}, y, z) = \texttt{(App $\alpha(e_1, y, z)$ $\alpha(e_2, y, z)$)}
+-->
+![LC alpha reduction App]({{site.baseurl}}/images/lc-alpha-app.png)
 
 ### Evaluating a Lambda Expression
 
@@ -259,30 +321,57 @@ The expression `(λx.x x) (λx.x x)` does not have a normal form because the ent
 
 ### Relating this to our interpreter
 
-**TODO**
+For the language we implemented in class, we did not use alpha and beta reductions because our interpreter used an environment. This is the same distinction we saw in substitution vs. environments for `let` bindings, but in a more general form! Alpha and beta reduction give us a simple mathematical defintion to define how programs in the lambda calculus should be evaluated simply by substituting. It also allows us explore different styles in which a program can be reduced to a value and how it might change the behavior of programs. The next section discusses this.
 
 ## Reduction Strategy
 
-Our interpreter has been evaluating programs to find their resulting values. In other words, it takes a _reducible expression_, or _redex_, and reduces it using the reduction rules. However, here also multiple choices are available when reducing a term:
+A program can be reduced to find the resulting value. In other words, it takes a _reducible expression_, or _redex_, and reduces it using the reduction rules. However, here also multiple choices are available when reducing a term and a _reduction strategy_ specifies the order in which beta reductions are made.
+
+Some reduction orders for a lambda expression may yield a normal form while other orders may not. For example, consider the given expression
+
+```
+(λx.1)((λx.x x)(λx.x x))
+```
+
+This expression has two redexes:
+
+1. The entire expression is a redex in which we can apply the function `(λx.1)` to the argument `((λx.x x)(λx.x x))` to yield the normal form `1`. This redex is the leftmost outermost redex in the given expression.
+2. The subexpression `((λx.x x)(λx.x x))` is also a redex in which we can apply the function `(λx.x x)` to the argument `(λx.x x)`. Note that this redex is the leftmost innermost redex in the given expression. But if we evaluate this redex we get same subexpression: `(λx.x x)(λx.x x)` → `(λx.x x)(λx.x x)`. Thus, continuing to evaluate the leftmost innermost redex will not terminate and no normal form will result.
+
+As a second example, consider the expression
+
+```
+(λx. λy. y)((λz.z z)(λz.z z))
+```
+
+This expression has two redexes:
+
+1. The entire expression is a redex in which we apply the function `(λx. λy. y)` to the argument `((λz.z z)(λz.z z))` to yield the normal form `(λy. y)`. This redex is the leftmost outermost redex in the given expression.
+2. The subexpression `((λz.z z)(λz.z z))` is also a redex in which we can apply the function `(λz.z z)` to the argument `(λz.z z)`. Note that this redex is the leftmost innermost redex in the given expression. But if we evaluate this redex we get same subexpression: `((λz.z z)(λz.z z))` → `((λz.z z)(λz.z z))`. Thus, continuing to evaluate the leftmost innermost redex will not terminate and no normal form will result.
+
+In general, there are two orders for evaluating lambda expressions:
 
 * **Applicative order:** Broadly, replace the bound variables with the _value_ of the argument expression. The leftmost innermost redex is always reduced first. Intuitively this means a function's arguments are always reduced before the function itself. Often this is known as _call-by-value_.
 * **Normal Order:** Replace bound variables by unevaluated argument expressions. The leftmost outermost redex is always reduced first and the arguments are substituted into the body before reduction. Often this is known as _call-by-name_.
 
-### Call-by-value
-
-**TODO**
-
-### Call-by-name
-
-**TODO**
-
 ## Encoding programs in Lambda Calculus
 
-**TODO**
+So far we look at how we can compute with lambda expressions. Turns out we can encode any behavior of a computable program in a lambda expression. This means we can encode all language features we developed until now (or any feature you want from your favorite language) as lambda expressions!
 
 ### Encoding Let Bindings
 
-**TODO**
+Let us recall what a `let` binding like `(let ((x e1)) e2)` did: it bound `e1` to `x`, and made `x` a bound variable in the expression `e2`. This is infact what lambdas do as well.
+
+A lambda term `((λx.e2) e1)` is exactly the same---it evaluates to `e2`, while binding `x` to `e1`. We can actually run this through our interpreter or even Racket to confirm it is correct:
+
+```racket
+> (interp-err (parse-prog '((let ((x  5))
+                              (+ x 1)))))
+6
+
+> (interp-err (parse-prog '(((λ (x) (+ x 1)) 5))))
+6
+```
 
 ### Encoding Conditionals and Boolean Values
 
@@ -342,13 +431,36 @@ We can also run this through our interpreter as well to verify our interpreter i
 4
 ```
 
-### Encoding Numbers
-
-**TODO**
-
 ## Y-Combinator
 
-**TODO: factorial example**
+We have one final issue to deal with: _recursive functions_. For example, consider how we wrote the factorial function before:
+
+```racket
+(define (fact n)
+  (if (zero? n) 1
+      (* n (fact (- n 1)))))
+```
+
+This crucially relies on the ability to name our functions. Without the ability to call the function `fact`, how do we recursively call it?
+
+To do this we use the Y-combinator in lambda calculus which is defined as:
+
+```
+λf.(λy.f(y y))(λy.f(y y))
+```
+
+This computes the fix-point of a function, i.e., the result of applying the function repeatedly until it terminates. Assuming you are applying the the Y-combinator to a function `g`.
+
+```
+   (Y g)
+=> (λf.(λy.f(y y))(λy.f(y y)) g)
+=> (λy.g(y y)) (λy.g(y y))
+=> g((λy.g(y y)) (λy.g(y y)))
+=> g (Y g)
+=> ...
+```
+
+To actually try this out in Racket, you can enable the lazy version of Racket which is very similar to the call-by-name or the normal order evaluation strategy. To do this change the first line of Racket to use `#lang lazy` instead of `#lang racket`.
 
 ```racket
 #lang lazy
@@ -359,4 +471,16 @@ We can also run this through our interpreter as well to verify our interpreter i
      (λ (n)
        (if (zero? n) 1
            (* n (fact (- n 1)))))))
+```
+
+Here we updated the definition of factorial such that it takes an argument `fact` and we use that. Because we evaluate through the Y-combinator this `fact` argument turns out to be `(Y g)` term thus calling recursively.
+
+To compute the factorial of a number now:
+
+```racket
+> ((Y (λ (fact)
+        (λ (n)
+          (if (zero? n) 1
+              (* n (fact (- n 1))))))) 3)
+6
 ```
