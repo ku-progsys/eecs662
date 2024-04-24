@@ -15,8 +15,8 @@ More concretely, the language implemented in the starter code has the sequencing
 References in this type system is denoted by `ref`. If you parse this through the `parse-type` function this is what you get:
 
 ```racket
-> (parse 'ref)
-(T 'ref)
+> (parse-type 'ref)
+'#s(T ref)
 ```
 
 However, just denoting references with a base type `ref` does not tell was anything about the underlying data type that the reference points to. For example, if `x` is a reference we have no idea what kind of value `(deref x)` will return. This can cause unsoundness in the type system! To mitigate this we have to track what type of values references point to. To use this we will use parametric polymorphism where the base type will be `ref`, parametrized by the type of value it is referencing. For example, `(new 5)` will have a type `(ref int)`, `(new #t)` will have a type `(ref bool)`. Derefencing will then give us back the expected type: `(deref (new 5))` will be of type `int`.
@@ -25,12 +25,12 @@ These parameterized `ref` types are represented using `ParamT` struct:
 
 ```racket
 > (parse-type '(ref int))
-(ParamT (T 'ref) (T 'int))
+'#s(ParamT #s(T ref) #s(T int))
 ```
 
-To add support for this, you have add 4 functions, all of which are left has `TODO` in the provided code.
+To add support for this, you have add 4 functions, all of which are left as `TODO` in the provided code.
 
-**Note:** This language is typed version of the language. Any test programs in this language will require type annotations for variables and function declarations. You only need to change `type.rkt` for this assignment.
+**Note:** This language is the typed version of our language. Any test programs in this language will require type annotations for variables and function declarations. You only need to change `type.rkt` for this assignment.
 
 ### Type `begin`
 
