@@ -40,6 +40,11 @@ Our type system should be able to flag the type error before the program begins 
 
 But before we define our typed language, we will have to understand what are types.
 
+---
+_**Note:** Complete implementation of the code shown in this unit can be found in the [types](https://github.com/ngsankha/662-interpreters/tree/main/types) implementation on GitHub._
+
+---
+
 ## Concrete Syntax
 
 The general syntax of the typed language is shown as below. It is same as the language with lambda functions, except for places where new variables are introduced. So lambda function have type annotations attached to each argument and finally another type to denote the type of value it produces. The other place we need types are let bindings.
