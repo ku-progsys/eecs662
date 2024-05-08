@@ -15,8 +15,7 @@
           @item{State}
           @item{Types and Type checking}
           @item{Objects}
-          @item{Laziness}
-          #:style ]
+          @item{Laziness}]
 
 @section{Grading}
 

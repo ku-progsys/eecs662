@@ -30,4 +30,5 @@ Office: 3025 Eaton Hall @(linebreak)
 
 @bold{Communications:} @canvas will be used for all official communications of the class.
 
-@include-section["syllabus.scrbl"]
+@include-section{syllabus.scrbl}
+@include-section{notes.scrbl}
