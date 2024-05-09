@@ -5,8 +5,8 @@
 (provide L eval renderer render-eval-rules-judgment)
 
 (define-language L
-  (e  ::= (Val v) (Var x) (Lam (x ...) e) (UnOp u e) (BinOp b e e) (If e e e) (Let x e e) (App e e))
-  (v  ::= integer boolean)
+  (e  ::= (Val v) (Lam x e) (Var x) (UnOp u e) (BinOp b e e) (If e e e) (Let x e e) (App e e))
+  (v  ::= integer boolean (Closure r x e))
   (i  ::= integer)
   (tf ::= boolean)
   (x  ::= variable)
@@ -19,7 +19,7 @@
   (test-match L e (term (Val #t)))
   (test-match L e (term (Val #f)))
   (test-match L e (term (Var y)))
-  (test-match L e (term (Lam (x y) (Val 4))))
+  (test-match L e (term (Lam x (Val 4))))
   (test-match L e (term (UnOp 'add1 (Val 4))))
   (test-match L e (term (BinOp '+ (Val 4) (Val 2))))
   (test-match L e (term (Let x (Val 4) (UnOp 'add1 (Val 2)))))
@@ -28,40 +28,64 @@
 (define-judgment-form L
   #:mode (eval I I O)
   #:contract (eval r e v)
-  [----------------- "val"
+
+  [------------------- "val"
    (eval r (Val v) v)]
 
+  [----------------------------------- "lam"
+   (eval r (Lam x e) (Closure r x e))]
+
   [(where v (lookup r x))
-   ----------------- "var"
+   ---------------------- "var"
    (eval r (Var x) v)]
 
-  [(eval r e i_1) (where i_2 ,(+ (term i_1) (term 1)))
-   ------------------------------------------ "add1"
+  [(eval r e i_1)
+   (where i_2 ,(+ (term i_1) (term 1)))
+   ------------------------------------ "add1"
    (eval r (UnOp 'add1 e) i_2)]
 
-  [(eval r e i_1) (where i_2 ,(- (term i_1) (term 1)))
-   ------------------------------------------ "sub1"
+  [(eval r e i_1)
+   (where i_2 ,(- (term i_1) (term 1)))
+   ------------------------------------ "sub1"
    (eval r (UnOp 'sub1 e) i_2)]
 
-  [(eval r e v_1) (side-condition (different v_1 0))
-   ------------------------------------------------------ "zero?-f"
+  [(eval r e v_1)
+   (side-condition (different v_1 0))
+   ---------------------------------- "zero?-f"
    (eval r (UnOp 'zero? e) #f)]
 
-  [(eval r e v_1) (side-condition (same v_1 0))
-   ------------------------------------------------------ "zero?-t"
+  [(eval r e v_1)
+   (side-condition (same v_1 0))
+   ----------------------------- "zero?-t"
    (eval r (UnOp 'zero? e) #t)]
 
-  [(eval r e_1 #f) (eval r e_3 v_3)
-   ------------------------------------------------------ "if-f"
+  [(eval r e_1 v_1)
+   (eval r e_2 v_2)
+   (where v ,(+ (term v_1) (term v_2)))
+   ------------------------------------ "+"
+   (eval r (BinOp '+ e_1 e_2) v)]
+
+  [(eval r e_1 #f)
+   (eval r e_3 v_3)
+   ------------------------------ "if-f"
    (eval r (If e_1 e_2 e_3) v_3)]
 
-  [(eval r e_1 v_1) (eval r e_2 v_2) (side-condition (different v_1 #t))
-   ------------------------------------------------------ "if-t"
+  [(eval r e_1 v_1)
+   (eval r e_2 v_2)
+   (side-condition (different v_1 #t))
+   ----------------------------------- "if-t"
    (eval r (If e_1 e_2 e_3) v_2)]
 
-  [(eval r_1 e_1 v_1) (eval (ext r_1 x v_1) e_2 v_2)
-   ------------------------------------------------------ "let"
-   (eval r_1 (Let x e_1 e_2) v_2)])
+  [(eval r_1 e_1 v_1)
+   (eval (ext r_1 x v_1) e_2 v_2)
+   ------------------------------- "let"
+   (eval r_1 (Let x e_1 e_2) v_2)]
+
+  [(eval r e_1 (Closure r_1 x e))
+   (eval r e_2 v_2)
+   (eval (ext r_1 x v_2) e v)
+   ------------------------------ "app"
+   (eval r (App e_1 e_2) v)])
 
 (define-metafunction L
   different : v v -> tf
@@ -102,4 +126,6 @@
   (test-judgment-holds (eval () (UnOp 'zero? (Val 4)) #f))
   (test-judgment-holds (eval () (UnOp 'zero? (UnOp 'sub1 (Val 1))) #t))
   (test-judgment-holds (eval ((x 42)) (Var x) 42))
-  (test-judgment-holds (eval () (Let y (UnOp 'add1 (Val 3)) (Var y)) 4)))
+  (test-judgment-holds (eval () (Let y (UnOp 'add1 (Val 3)) (Var y)) 4))
+  (test-judgment-holds (eval ((x 1) (y 2)) (BinOp '+ (Var x) (Var y)) 3))
+  (test-judgment-holds (eval () (App (Let x (Val 3) (Lam y (BinOp '+ (Var y) (Var x)))) (Val 2)) 5)))
