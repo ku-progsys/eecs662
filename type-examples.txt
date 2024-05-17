@@ -1,0 +1,116 @@
+1. types and mutation
+2. parametric polymorphism
+3. Subtyping
+
+C++ parametric polymorphism
+===========================
+#include <iostream>
+#include <string>
+
+template <class T>
+T max(T a, T b) {
+ return a > b ? a : b;
+}
+
+int main() {
+ std::cout << ::max(9, 5) << std::endl;     // 9
+
+ std::string foo("foo"), bar("bar");
+ std::cout << ::max(foo, bar) << std::endl; // "foo"
+}
+
+
+
+C++ Dangling pointers
+=====================
+
+int* abc() {
+  int x = 1;
+  return &x;
+}
+
+------------
+
+int* foo() {
+  int* x = new int;
+  *x = 1;
+  // ...
+  delete x;
+  return x;
+}
+
+
+C++ Iterator invalidation
+=====================
+
+// Create the vector
+vector<int> x;
+x.push_back(1);
+x.push_back(2);
+x.push_back(3);
+
+// Get an iterator
+vector<int>::iterator itr = x.begin();
+
+int j=0;
+for (itr; itr !=x.end(); itr++) {
+  x.push_back(j); // Uh oh!
+  j++;
+  cout << j << " .. ";
+}
+
+Rust Ownership
+==============
+fn do_stuff(x: Vec<u8>) {
+  // do stuff
+}
+let y = vec![1,2,3];
+do_stuff(y);
+// y cannot be used here!
+
+-----------
+
+fn gimme_vec() -> Vec<u8> {
+  let mut x = vec![1,2,3];
+  x.push(4);
+  return x; // "moved out" of the function
+        // now destructors will not run at the end of this function
+}
+
+// ...
+
+{
+  let y = gimme_vec();
+  // destructors will run here, if we don't pass it somewhere else
+}
+
+Rust Borrowing
+==============
+
+fn do_stuff(x: &Vec<u8>) {
+  // do stuff
+}
+let y = vec![1,2,3];
+do_stuff(&y); // does not move y
+do_stuff(&y);
+do_stuff(&y);
+println!("{:?}", y);
+
+--------------
+
+let mut x = vec![1,2,3];
+{
+  let y = &x; // borrow the vector
+  // x.push(1); // Not allowed, x is currently borrowed and cannot be mutated
+  // y.push(1); // Not allowed, y is not a mutable reference
+}
+x.push(1); // The borrow was "returned", we can mutate now
+
+let mut x = vec![1,2,3];
+{
+  let y = &mut x; // the vector was borrowed, mutably
+  // x.push(1); // Still not allowed, x is currently borrowed and cannot be mutated
+  // println!("x is {}", x) // also not allowed, y is mutating this
+  y.push(1); // Allowed, y is a mutable reference
+}
+x.push(1) // The borrow was "returned", we can mutate now
