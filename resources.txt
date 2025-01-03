@@ -1,0 +1,14 @@
+https://www.cs.umd.edu/class/spring2022/cmsc330/lectures/21-semantics.pdf
+https://cs.brown.edu/courses/cs173/2012/book/adding-functions.html
+https://cs.brown.edu/courses/cs173/2012/book/From_Substitution_to_Environments.html
+https://stackoverflow.com/questions/34140819/lambda-calculus-reduction-steps
+https://stackoverflow.com/questions/11239262/what-is-meant-by-capture-avoiding-substitutions
+
+https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/1.LAMBDA-CALCULUS.html
+https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/2.LAMBDA-CALCULUS-PART2.html
+http://www.cs.columbia.edu/~aho/cs3261/Lectures/L23-Lambda_Calculus_I.html
+http://www.cs.columbia.edu/~aho/cs3261/Lectures/L24-Lambda_Calculus_II.html
+
+https://opendsa.cs.vt.edu/ODSA/Books/PL/html/AlphaConversion.html
+
+https://publish.obsidian.md/palexand-ku/Teaching/EECS+662/assets/PLIH+Lecture+Notes+Published
