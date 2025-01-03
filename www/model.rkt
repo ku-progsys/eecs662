@@ -4,128 +4,115 @@
 
 (provide L eval renderer render-eval-rules-judgment)
 
+(define (not-equal? v1 v2) (not (equal? v1 v2)))
+
 (define-language L
-  (e  ::= (Val v) (Lam x e) (Var x) (UnOp u e) (BinOp b e e) (If e e e) (Let x e e) (App e e))
-  (v  ::= integer boolean (Closure r x e))
-  (i  ::= integer)
-  (tf ::= boolean)
-  (x  ::= variable)
-  (u  ::= 'add1 'sub1 'zero?)
-  (b  ::= '+ '- '* '/ 'and)
-  (r  ::= ((x v) ...)))
+  (e ::= v x (add1 e) (sub1 e) (zero? e) (+ e e) (- e e) (* e e) (/ e e) (and e e) (if e e e) (let ((x e)) e) (λ (x) e) (e e))
+  (v ::= integer boolean (Closure E x e))
+  (x ::= variable-not-otherwise-mentioned)
+  (E ::= ((x v) ...)))
 
 (module+ test
-  (test-match L e (term (Val 5)))
-  (test-match L e (term (Val #t)))
-  (test-match L e (term (Val #f)))
-  (test-match L e (term (Var y)))
-  (test-match L e (term (Lam x (Val 4))))
-  (test-match L e (term (UnOp 'add1 (Val 4))))
-  (test-match L e (term (BinOp '+ (Val 4) (Val 2))))
-  (test-match L e (term (Let x (Val 4) (UnOp 'add1 (Val 2)))))
-  (test-match L e (term (App (Val 4) (Val 2)))))
+  (test-match L e (term 5))
+  (test-match L e (term #t))
+  (test-match L e (term #f))
+  (test-match L e (term y))
+  (test-match L e (term (λ (x) 4)))
+  (test-match L e (term (add1 4)))
+  (test-match L e (term (+ 4 2)))
+  (test-match L e (term (let ((x 4)) (add1 2))))
+  (test-match L e (term (4 2))))
 
 (define-judgment-form L
   #:mode (eval I I O)
-  #:contract (eval r e v)
+  #:contract (eval E e v)
 
   [------------------- "val"
-   (eval r (Val v) v)]
+   (eval E v v)]
 
   [----------------------------------- "lam"
-   (eval r (Lam x e) (Closure r x e))]
+   (eval E (λ (x) e) (Closure E x e))]
 
-  [(where v (lookup r x))
+  [(where v (lookup E x))
    ---------------------- "var"
-   (eval r (Var x) v)]
+   (eval E x v)]
 
-  [(eval r e i_1)
-   (where i_2 ,(+ (term i_1) (term 1)))
+  [(eval E e v_1)
+   (where v_2 ,(+ (term v_1) (term 1)))
    ------------------------------------ "add1"
-   (eval r (UnOp 'add1 e) i_2)]
+   (eval E (add1 e) v_2)]
 
-  [(eval r e i_1)
-   (where i_2 ,(- (term i_1) (term 1)))
+  [(eval E e v_1)
+   (where v_2 ,(- (term v_1) (term 1)))
    ------------------------------------ "sub1"
-   (eval r (UnOp 'sub1 e) i_2)]
+   (eval E (sub1 e) v_2)]
 
-  [(eval r e v_1)
-   (side-condition (different v_1 0))
+  [(eval E e v_1)
+   (side-condition (not-equal? v_1 0))
    ---------------------------------- "zero?-f"
-   (eval r (UnOp 'zero? e) #f)]
+   (eval E (zero? e) #f)]
 
-  [(eval r e v_1)
-   (side-condition (same v_1 0))
+  [(eval E e v_1)
+   (side-condition (equal? v_1 0))
    ----------------------------- "zero?-t"
-   (eval r (UnOp 'zero? e) #t)]
+   (eval E (zero? e) #t)]
 
-  [(eval r e_1 v_1)
-   (eval r e_2 v_2)
+  [(eval E e_1 v_1)
+   (eval E e_2 v_2)
    (where v ,(+ (term v_1) (term v_2)))
    ------------------------------------ "+"
-   (eval r (BinOp '+ e_1 e_2) v)]
+   (eval E (+ e_1 e_2) v)]
 
-  [(eval r e_1 #f)
-   (eval r e_3 v_3)
+  [(eval E e_1 #f)
+   (eval E e_3 v_3)
    ------------------------------ "if-f"
-   (eval r (If e_1 e_2 e_3) v_3)]
+   (eval E (if e_1 e_2 e_3) v_3)]
 
-  [(eval r e_1 v_1)
-   (eval r e_2 v_2)
-   (side-condition (different v_1 #t))
+  [(eval E e_1 v_1)
+   (eval E e_2 v_2)
+   (side-condition (equal? v_1 #t))
    ----------------------------------- "if-t"
-   (eval r (If e_1 e_2 e_3) v_2)]
+   (eval E (if e_1 e_2 e_3) v_2)]
 
-  [(eval r_1 e_1 v_1)
-   (eval (ext r_1 x v_1) e_2 v_2)
+  [(eval E e_1 v_1)
+   (eval (extend E x v_1) e_2 v_2)
    ------------------------------- "let"
-   (eval r_1 (Let x e_1 e_2) v_2)]
+   (eval E (let ((x e_1)) e_2) v_2)]
 
-  [(eval r e_1 (Closure r_1 x e))
-   (eval r e_2 v_2)
-   (eval (ext r_1 x v_2) e v)
+  [(eval E e_1 (Closure E_1 x e))
+   (eval E e_2 v_2)
+   (eval (extend E_1 x v_2) e v)
    ------------------------------ "app"
-   (eval r (App e_1 e_2) v)])
+   (eval E (e_1 e_2) v)])
 
 (define-metafunction L
-  different : v v -> tf
-  [(different v_1 v_1) #f]
-  [(different v_1 v_2) #t])
-
-(define-metafunction L
-  same : v v -> tf
-  [(same v_1 v_1) #t]
-  [(same v_1 v_2) #f])
-
-(define-metafunction L
-  lookup : r x -> v
+  lookup : E x -> v
   [(lookup ((x v) (x_1 v_1) ...)     x) v]
   [(lookup ((x_0 v_0) (x_1 v_1) ...) x) (lookup ((x_1 v_1) ...) x)])
 
-
 (define-metafunction L
-  ext : r x v -> r
-  [(ext ((x_0 v_0) ...) x v) ((x v) (x_0 v_0) ...)])
+  extend : E x v -> E
+  [(extend ((x_0 v_0) ...) x v) ((x v) (x_0 v_0) ...)])
 
 (define (renderer e)
-  (with-compound-rewriters (['+         (λ (lws) (list "" (list-ref lws 2) " + " (list-ref lws 3) ""))]
-                            ['-         (λ (lws) (list "" (list-ref lws 2) " - " (list-ref lws 3) ""))]
-                            ['different (λ (lws) (list "" (list-ref lws 2) " ≠ " (list-ref lws 3) ""))]
-                            ['same      (λ (lws) (list "" (list-ref lws 2) " = " (list-ref lws 3) ""))]
-                            ['eval      (λ (lws) (list "" (list-ref lws 2) " ⊢ " (list-ref lws 3) " ⇓ " (list-ref lws 4) ""))]
-                            ['lookup    (λ (lws) (list "" (list-ref lws 2) "[" (list-ref lws 3) "]" ""))]
-                            ['ext       (λ (lws) (list "" (list-ref lws 2) "[" (list-ref lws 3) " ↦ " (list-ref lws 4) "]" ""))])
+  (with-compound-rewriters (['+          (λ (lws) (list "" (list-ref lws 2) " + " (list-ref lws 3) ""))]
+                            ['-          (λ (lws) (list "" (list-ref lws 2) " - " (list-ref lws 3) ""))]
+                            ['not-equal? (λ (lws) (list "" (list-ref lws 2) " ≠ " (list-ref lws 3) ""))]
+                            ['equal?     (λ (lws) (list "" (list-ref lws 2) " = " (list-ref lws 3) ""))]
+                            ['eval       (λ (lws) (list "" (list-ref lws 2) " ⊢ " (list-ref lws 3) " ⇓ " (list-ref lws 4) ""))]
+                            ['lookup     (λ (lws) (list "" (list-ref lws 2) "[" (list-ref lws 3) "]" ""))]
+                            ['extend     (λ (lws) (list "" (list-ref lws 2) "[" (list-ref lws 3) " ↦ " (list-ref lws 4) "]" ""))])
     (e)))
 
 (define (render-eval-rules-judgment)
   (renderer (λ () (render-judgment-form eval))))
 
 (module+ test
-  (test-judgment-holds (eval () (UnOp 'add1  (Val 3)) 4))
-  (test-judgment-holds (eval () (UnOp 'sub1  (Val 4)) 3))
-  (test-judgment-holds (eval () (UnOp 'zero? (Val 4)) #f))
-  (test-judgment-holds (eval () (UnOp 'zero? (UnOp 'sub1 (Val 1))) #t))
-  (test-judgment-holds (eval ((x 42)) (Var x) 42))
-  (test-judgment-holds (eval () (Let y (UnOp 'add1 (Val 3)) (Var y)) 4))
-  (test-judgment-holds (eval ((x 1) (y 2)) (BinOp '+ (Var x) (Var y)) 3))
-  (test-judgment-holds (eval () (App (Let x (Val 3) (Lam y (BinOp '+ (Var y) (Var x)))) (Val 2)) 5)))
+  (test-judgment-holds (eval () (add1 3) 4))
+  (test-judgment-holds (eval () (sub1 4) 3))
+  (test-judgment-holds (eval () (zero? 4) #f))
+  (test-judgment-holds (eval () (zero? (sub1 1)) #t))
+  (test-judgment-holds (eval ((x 42)) x 42))
+  (test-judgment-holds (eval () (let ((y (add1 3))) y) 4))
+  (test-judgment-holds (eval ((x 1) (y 2)) (+ x y) 3))
+  (test-judgment-holds (eval () ((let ((x 3)) (λ (y) (+ y x))) 2) 5)))
