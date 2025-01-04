@@ -1,3 +1,11 @@
+.DS_Store
+compiled/
+/doc/
+*~
+*.bak
+\#*
+.\#*
+
 *.gem
 .bundle/
 .jekyll-cache/
