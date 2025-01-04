@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: |
@@ -34,8 +35,9 @@ jobs:
       #   run: raco test
 
       - name: Build website
-        run: xvfb-run -a raco scribble --htmls ++style css/fancyverb.css ++xref-in setup/xref load-collections-xref --redirect-main http://docs.racket-lang.org/ main.scrbl
-        run: cp -r examples main/
+        run: |
+          xvfb-run -a raco scribble --htmls ++style css/fancyverb.css ++xref-in setup/xref load-collections-xref --redirect-main http://docs.racket-lang.org/ main.scrbl
+          cp -r examples main/
 
       - name: Upload static files as artifact
         id: deployment
