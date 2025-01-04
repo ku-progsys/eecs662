@@ -12,16 +12,8 @@ suggestions for improving the material, @bold{please} submit an
 
 @include-section{notes/1/interpreter.scrbl}
 @include-section{notes/2/hs2rkt.scrbl}
+@include-section{notes/3/numbers.scrbl}
 
 @;{
-
-Testing Redex + Scribble
-
-@(require redex pict "model.rkt")
-
-@centered{@(scale (render-language L) 1.5)}
-
-@centered{@(scale (render-eval-rules-judgment) 1.5)}
-
 @centered{@(scale (renderer (λ () (derivation->pict L (car (build-derivations (eval () ((let ((x 3)) (λ (y) (+ y x))) 2) 5)))))) 1.5)}
 }

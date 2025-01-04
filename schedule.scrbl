@@ -16,13 +16,17 @@
                      @bold{Thursday})
 
                (list @wk{1/21}
-	       	         ""
-	                 @secref["Intro"]
-		             @elem{@prof-initials Traveling})
-		               
+	       	   ""
+	               @secref["Intro"]
+		         @elem{@prof-initials Traveling})
 
                (list @wk{1/28}
-	       	         ""
-	                 @elem{@secref["Hs2Rkt"]}                     
+	       	   ""
+	               @elem{@secref["Hs2Rkt"]}                     
                      @elem{@secref["Hs2Rkt"]})
+
+               (list @wk{2/4}
+	       	   ""
+	               @elem{@secref["Amount"]}                     
+                     @elem{})
 )]

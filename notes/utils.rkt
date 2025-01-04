@@ -2,6 +2,8 @@
 (provide (all-defined-out))
 (require (for-syntax racket/runtime-path racket/base racket/file pkg/lib)
          (for-meta 2 racket/base pkg/lib))
+
+(require racket/sandbox scribble/examples)
 (require scribble/manual racket/runtime-path pkg/lib)
 (require images/icons/file)
 
@@ -35,3 +37,9 @@
      (string-append "> " c "\n"
                     (with-output-to-string/err (λ () (system #:set-pwd? #t c)))
                     (apply shell cs))]))
+
+(define ev
+  (make-base-eval #:lang 'racket))
+
+(ev '(require (only-in racket/pretty pretty-print-columns)))
+(ev '(pretty-print-columns 50))
