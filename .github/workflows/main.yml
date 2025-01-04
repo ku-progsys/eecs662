@@ -27,7 +27,7 @@ jobs:
       #   run: raco test
 
       - name: Build website
-        run: raco scribble --htmls main.scrbl
+        run: xvfb-run -a raco scribble --htmls main.scrbl
 
       - name: Upload static files as artifact
         id: deployment
