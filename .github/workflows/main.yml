@@ -22,7 +22,6 @@ jobs:
           distribution: 'full'
           variant: 'CS'
           version: '8.14'
-          sudo: never
 
       - name: Package Installation
         run: raco pkg install --auto redex
