@@ -2,7 +2,7 @@
 
 @(require "constants.rkt")
 
-@title[#:style 'unnumbered]{Syllabus}
+@title[#:tag "Syllabus" #:style 'unnumbered]{Syllabus}
 
 @section{Instructor Details}
 
@@ -27,7 +27,7 @@ Office: @ta-office @(linebreak)
 
 @bold{Credit Hours:} 3
 
-A @(link "https://policy.ku.edu/registrar/credit-hour" "credit hour") is a way
+A @link["https://policy.ku.edu/registrar/credit-hour"]{credit hour} is a way
 to measure the amount of work you're expected to do for a class. It's based on
 the learning goals of the course and how much time you'll spend on it. During a
 full length (15-week) semester, you can expect to spend about one hour in class
@@ -110,7 +110,7 @@ Classroom tasks are weighted using the following scale:
 
 TBD
 
-The @(link "https://policy.ku.edu/governance/USRR#excused" "University Excused Absence Policy") is a
+The @link["https://policy.ku.edu/governance/USRR#excused"]{University Excused Absence Policy} is a
 good reference for allowed reasons.
 
 @section{Academic Integrity}
@@ -131,8 +131,7 @@ will conveyed via Canvas announcements.
 
 @section{Student Resources and University Policies}
 
-Please visit the Student Resources website (@(link
-"https://academicsuccess.ku.edu/student-resources-0" "KU Academic Success")) for a list of student
+Please visit the Student Resources website (@link["https://academicsuccess.ku.edu/student-resources-0"]{KU Academic Success"}) for a list of student
 resources and university policies. 
 
 @section{Accommodation}
@@ -141,5 +140,5 @@ The Student Access Center (SAC) coordinates academic accommodations and services
 students with disabilities. If you have a disability for which you wish to request accommodations and
 have not contacted SAC, please do so as soon as possible. They are located in 22 Strong Hall and can
 be reached at 785-864-4064 (V/TTY). Information about their services can be found at
-@(link "https://access.ku.edu" "access.ku.edu"). Please contact me privately in regard to your needs
+@link["https://access.ku.edu"]{access.ku.edu}. Please contact me privately in regard to your needs
 in this course.

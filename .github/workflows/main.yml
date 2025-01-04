@@ -15,6 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          curl -Ls https://github.com/jgm/pandoc/releases/download/2.11.2/pandoc-2.11.2-1-amd64.deb -o pandoc.deb
+          sudo dpkg -i pandoc.deb
+          sudo apt-get install fonts-stix
+          sudo apt-get install libunistring-dev
+
       - name: Install Racket
         uses: Bogdanp/setup-racket@v1.11
         with:
@@ -27,7 +34,8 @@ jobs:
       #   run: raco test
 
       - name: Build website
-        run: xvfb-run -a raco scribble --htmls main.scrbl
+        run: xvfb-run -a raco scribble --htmls ++style css/fancyverb.css ++xref-in setup/xref load-collections-xref --redirect-main http://docs.racket-lang.org/ main.scrbl
+        run: cp -r examples main/
 
       - name: Upload static files as artifact
         id: deployment

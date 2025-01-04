@@ -25,4 +25,5 @@ Office: @ta-office @(linebreak)
 @bold{Communications:} @canvas will be used for all official communications of the class.
 
 @include-section{syllabus.scrbl}
+@include-section{schedule.scrbl}
 @include-section{notes.scrbl}
