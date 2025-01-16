@@ -28,6 +28,6 @@ course-desc
 (define ta-email (link "mailto:b748r023@ku.edu" "b748r023@ku.edu"))
 (define ta-initials "BR")
 (define ta-office "3025 Eaton Hall")
-(define ta-oh "Tuesday and Wedneday, 2:00 - 3:00pm")
+(define ta-oh "Monday and Friday, 2:00 - 3:00pm")
 
 (define canvas (link "https://canvas.ku.edu/courses/143647" "Canvas"))
