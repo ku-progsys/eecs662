@@ -72,13 +72,13 @@ We will simplify matters of syntax by using the Lisp notation of s-expression fo
 @item{the second converts an s-expression into an instance of a datatype for representing expressions called an @bold{AST}.}
 ]
 
-For the first phase, we rely on the @racket{read} function to take care of converting strings to s-expressions. In order to parse s-expressions into ASTs, we will write fairly straightforward functions that convert between the representations.
+For the first phase, we rely on the @racket[read] function to take care of converting strings to s-expressions. In order to parse s-expressions into ASTs, we will write fairly straightforward functions that convert between the representations.
 
 Amount, like many of the other languages studied in this course, is designed to be a subset of Racket. This has two primary benefits:
 
 @itemlist[
 @item{the Racket interpreter can be used as a reference implementation of the languages we build, and}
-@item{there are built-in facilities for reading and writing data in the parenthezised form that Racket uses, which we can borrow to make parsing easy.}
+@item{there are built-in facilities for reading and writing data in the parenthesized form that Racket uses, which we can borrow to make parsing easy.}
 ]
 
 The concrete form of an Amount program will consist of, like Racket, the line of text:

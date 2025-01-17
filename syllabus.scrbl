@@ -11,13 +11,12 @@ Office Hours: @prof-oh @(linebreak)
 Office: @ta-office @(linebreak)
 @prof-email
 
-@emph{Please email to set an appointment if standard office hours times do not
-work for you.}
-
 @bold{Teaching Assistant:} @ta (@ta-pronouns) @(linebreak)
 Office Hours: @ta-oh @(linebreak)
 Office: @ta-office @(linebreak)
 @ta-email
+
+@emph{Please email to set an appointment if standard office hours times do not work for you.}
 
 @section{Class Time and Location}
 

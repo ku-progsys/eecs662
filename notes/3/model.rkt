@@ -5,7 +5,8 @@
 (provide L eval renderer render-eval-rules-judgment)
 
 (define-language L
-  (e ::= integer))
+  (v ::= integer)
+  (e ::= v))
 
 (module+ test
   (test-match L e (term 5))
@@ -14,10 +15,10 @@
 
 (define-judgment-form L
   #:mode (eval I O)
-  #:contract (eval e integer)
+  #:contract (eval e v)
 
-  [------------------------- "integer"
-   (eval integer integer)])
+  [------------------------- "value"
+   (eval v v)])
 
 (define (renderer e)
   (with-compound-rewriters (['eval (λ (lws) (list "" (list-ref lws 2) " ⇓ " (list-ref lws 3) ""))])
