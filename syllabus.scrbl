@@ -40,15 +40,13 @@ adjusted for the shorter timeframe.
 @section{Instructional Methods}
 
 All lectures will be held in-person, unless other wise notified. If the
-instructor is traveling alternative classes can be organized on Zoom.
+instructor is traveling alternative classes may be organized on Zoom.
 
 @section{Course Description}
 
 @desc
 
 @section{Topics}
-
-TBD
 
 @itemlist[@item{Introduction}
           @item{Expression Interpreters}
@@ -63,19 +61,33 @@ TBD
 
 @section{Learning Outcomes}
 
-At the conclusion of this course, students will be able to @bold{TBD}
+For those of us who write software, the programming language is our primary
+tool. Some languages make it easier to write certain kinds programs,
+while others prevent us from writing certain kinds of bad programs altogether.
+Some languages prioritize freedom and flexibility, while others seek a balance
+between expressiveness and limitations. Understanding these trade-offs not only
+deepens our understanding of computation but also makes us better programmers.
+
+This course offers a framework to help you gain this understanding. The goal is
+to help you: explore the fundamental components of modern programming languages,
+use these components to compare and contrast different languages (and prepare
+you to create your own!), and reflect on the relationship between languages,
+programming, and, in some cases, programmers themselves.
 
 @section{Course Materials}
 
-TBD
+This class has no required textbook. All course materials can be found in the
+@secref{Notes}. A few references (all available for free) are listed in @secref{Texts}.
 
 @section{Minimal Technical Skills Needed}
 
-TBD
+The class has a prerequisite of EECS 368 or EECS 468 and EECS 330 or EECS 560.
 
 @section{Course Assignments and Requirements}
 
-TBD
+@itemlist[@item{Midterm Exam 20%}
+          @item{Final Exam 20%}
+          @item{Assignments 60%}]
 
 @section{Student Survey of Teaching}
 
@@ -89,28 +101,42 @@ modifications to this course (and other courses that I teach) in the future.
 
 @section{Grading}
 
-Grades are assigned on a standard 10 point scale:
+Homework assignments, quizzes, and exams will be graded and returned to the
+class via Gradescope. Students have one week from when an item is returned in
+class to request a regrade.
 
-@itemlist[@item{A = 90-100%}
-          @item{B = 80-90%}
-          @item{C = 70-80%}
-          @item{D = 60-70%}
+Your final grade in the class will be computed by using the weighted average
+given above, and the following scale:
+
+@itemlist[@item{A = 92-100%}
+          @item{A- = 90-92%}
+          @item{B+ = 88-90%}
+          @item{B = 82-88%}
+          @item{B- = 80-82%}
+          @item{C+ = 78-80%}
+          @item{C = 72-78%}
+          @item{C- = 70-72%}
+          @item{D+ = 68-70%}
+          @item{D = 62-68%}
+          @item{D- = 60-62%}
           @item{F = 0-60%}]
 
-I do not use a +/- grading scale.
+Your total scores will not be rounded up. If you are on the boundary, you will
+be given the higher grade. For example, if your total is exact 88, you will get
+B+. However, if your total is 87.9 you will get B.
 
-Classroom tasks are weighted using the following scale:
-
-@itemlist[@item{Midterm Exam 20%}
-          @item{Final Exam 20%}
-          @item{Assignments 60%}]
+Depending on overall student performance in the course, I reserve the right to
+lower (but not raise) the above grade cutoffs. However, this is not something
+you should count on.
 
 @section{Attendance Policy}
 
-TBD
+I do not take attendance. You are however, expected and encouraged to attend and
+participate in class. If you have any problems which will cause you to miss a
+class or an assignment deadline please email me.
 
-The @link["https://policy.ku.edu/governance/USRR#excused"]{University Excused Absence Policy} is a
-good reference for allowed reasons.
+The @link["https://policy.ku.edu/governance/USRR#excused"]{University Excused
+Absence Policy} is a good reference for allowed reasons.
 
 @section{Academic Integrity}
 
@@ -130,7 +156,7 @@ will conveyed via Canvas announcements.
 
 @section{Student Resources and University Policies}
 
-Please visit the Student Resources website (@link["https://academicsuccess.ku.edu/student-resources-0"]{KU Academic Success"}) for a list of student
+Please visit the Student Resources website (@link["https://academicsuccess.ku.edu/student-resources-0"]{KU Academic Success}) for a list of student
 resources and university policies. 
 
 @section{Accommodation}

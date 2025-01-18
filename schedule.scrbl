@@ -6,7 +6,8 @@
 
 @title[#:style 'unnumbered]{Schedule}
 
-@;{ Fall }
+@emph{Schedule beyond next week is subject to change!}
+
 @tabular[#:style 'boxed
          #:sep @hspace[1]
          #:row-properties '(bottom-border)
@@ -18,42 +19,42 @@
                (list @wk{1/21}
                       ""
                      @secref["Intro"]
-                     @elem{@prof-initials Traveling})
+                     @elem{@emph{@prof-initials Traveling}})
 
                (list @wk{1/28}
                       ""
-                     @elem{@secref["Hs2Rkt"]}                     
-                     @elem{@secref["Hs2Rkt"]})
+                     @elem{Haskell to Racket}                     
+                     @elem{})
 
                (list @wk{2/4}
                       ""
-                     @elem{@secref["Amount"]}                     
-                     @elem{})
+                     @elem{Numbers}                     
+                     @elem{Formal Semantics})
 
                (list @wk{2/11}
                       ""
-                     @elem{}                     
-                     @elem{})
+                     @elem{Booleans}                     
+                     @elem{Errors})
 
                (list @wk{2/18}
                       ""
-                     @elem{}                     
+                     @elem{Lambda}                     
                      @elem{})
 
                (list @wk{2/25}
                       ""
-                     @elem{}                     
+                     @elem{Lambda Calculus}                     
                      @elem{})
 
                (list @wk{3/4}
                       ""
-                     @elem{}                     
-                     @elem{})
+                     @elem{Let bindings}                     
+                     @elem{Programs as Data Structures})
 
                (list @wk{3/11}
                       ""
-                     @elem{}                     
-                     @elem{})
+                     @elem{Midterm Review}                     
+                     @elem{Midterm})
 
                (list @wk{3/18}
                       ""
