@@ -12,7 +12,7 @@
 
 @bold{Instructor:} @prof (@prof-pronouns) @(linebreak)
 Office Hours: @prof-oh @(linebreak)
-Office: @ta-office @(linebreak)
+Office: @prof-office @(linebreak)
 @prof-email
 
 @bold{Teaching Assistant:} @ta (@ta-pronouns) @(linebreak)
