@@ -11,8 +11,8 @@ suggestions for improving the material, @bold{please} submit an
 @local-table-of-contents[#:style 'immediate-only]
 
 @include-section{notes/1/interpreter.scrbl}
-@;{
 @include-section{notes/2/hs2rkt.scrbl}
+@;{
 @include-section{notes/3/numbers.scrbl}
 @include-section{notes/4/arithmetic.scrbl}
 }
