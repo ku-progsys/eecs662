@@ -1,7 +1,15 @@
 # EECS 662: Programming Languages
 
-_University of Kansas, Spring 2024_
+_University of Kansas, Spring 2025_
 
-[Website](https://sankhs.com/eecs662/)
+[Website](https://ku-progsys.github.io/eecs662/)
 
-This is the source for the course webpage EECS 662: Programming Languages. The webpage is based on the Jekyll theme [Just the Class](https://github.com/kevinlin1/just-the-class).
+This repository contains the course material for EECS 662: Programming Languages, taught at the University of Kansas.
+
+## Build Instructions
+
+```bash
+raco scribble --htmls ++style css/fancyverb.css ++xref-in setup/xref load-collections-xref \
+              --redirect-main http://docs.racket-lang.org/ \
+              main.scrbl
+```
