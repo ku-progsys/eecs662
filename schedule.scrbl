@@ -24,7 +24,7 @@
                (list @wk{1/28}
                       ""
                      @secref["Hs2Rkt"]
-                     @elem{})
+                     @elem{@secref["Hs2Rkt"] (Cont.)})
 
                (list @wk{2/4}
                       ""
