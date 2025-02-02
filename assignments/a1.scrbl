@@ -10,12 +10,12 @@ Rename the file to @tt{main.rkt}. This step is important! Also make sure not to 
 
 @section{Testing}
 
-@margin-note{@bold{Note:} Running @tt{racket hw1.rkt} from the command line will not run the tests.}
+@margin-note{@bold{Note:} Running @tt{racket main.rkt} from the command line will not run the tests.}
 
 You can test your code in several ways:
 @itemlist[
 @item{Running the code in DrRacket will (by default) run the test submodule and print out a report of any test failures. This is actually a configurable preference, but it is on by default.}
-@item{Using the command line @tt{raco test hw1.rkt} from the same directory as @tt{hw1.rkt}.}
+@item{Using the command line @tt{raco test main.rkt} from the same directory as @tt{main.rkt}.}
 ]
 
 @section{Submitting}
