@@ -6,7 +6,7 @@ The goal of this assignment is to gain practice programming in Racket.
 
 You are given a @tt{hw1.rkt} file (on Canvas under "Files"), that contains a number of sections. In each section there are several function “stubs,” i.e. incomplete function definitions with type signatures, descriptions, and a small set of tests. Each function has a bogus (but type correct) body marked with a “TODO” comment. Your job is to replace each of these expressions with a correct implementation of the function.
 
-Do not rename the file. Also make sure not to change the name or signature of any function given to you. You may add any additional functions that help you solve the overall problem you’re tackling.
+Rename the file to @tt{main.rkt}. This step is important! Also make sure not to change the name or signature of any function given to you. You may add any additional functions that help you solve the overall problem you’re tackling.
 
 @section{Testing}
 
@@ -20,7 +20,7 @@ You can test your code in several ways:
 
 @section{Submitting}
 
-Rename @tt{hw1.rkt} to @tt{main.rkt}. This step is important. Submit your filled-in @tt{main.rkt} file on Gradescope. You can submit multiple times, but only the latest submission will be counted.
+Make sure your file is named @tt{main.rkt}. Submit your filled-in @tt{main.rkt} file on Gradescope. You can submit multiple times, but only the latest submission will be counted.
 
 You can @tt{Cmd + F} or @tt{Ctrl + F} for "TODO" through your submission to find if you have any remaining tasks.
 
