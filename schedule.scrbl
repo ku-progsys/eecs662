@@ -28,18 +28,18 @@
 
                (list @wk{2/4}
                       ""
-                     @elem{Numbers}
-                     @elem{Formal Semantics})
+                     @secref["Amount"]
+                     @elem{Arithmetic})
 
                (list @wk{2/11}
                       ""
                      @elem{Booleans}
-                     @elem{Errors})
+                     @elem{Formal Semantics})
 
                (list @wk{2/18}
                       ""
-                     @elem{Lambda}
-                     @elem{})
+                     @elem{Errors}
+                     @elem{Lambda})
 
                (list @wk{2/25}
                       ""

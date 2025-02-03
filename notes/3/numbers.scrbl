@@ -99,7 +99,11 @@ Reading Amount programs from ports, files, strings, etc. consists of reading (an
 
 @section{Abstract syntax for Amount}
 
-TBD
+@margin-note{Later in the semester, we will look at changing parsers to parse different syntax but use our existing language semantics.}
+
+The program as written by the user is any sequence of characters. Before the program can be evaluated, it has be checked if it is in the concrete syntax of the language! After that, all programs have to converted to a tree representation that removes all ambiguities from the concrete syntax. In most language implementations these are done by a component known as a @emph{parser}. While a parser is interesting in it's own right, it's scope is limited to the syntax of the user language. Parsers are covered in depth in @link["https://compilers.cool"]{EECS 665}. In this class, we will focus on the language semantics rather than the syntax!
+
+Recall that all Racket programs are written as s-expressions which are already tree-like structures and are un-ambiguous. So we can skip the parser entirely and directly look at the language semantics for this class!
 
 @section{Meaning of Amount programs}
 
