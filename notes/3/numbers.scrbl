@@ -115,9 +115,9 @@ An operational semantics is a mathematical definition that characterizes the mea
 
 Here, we are defining a binary relation, called @(eval), and saying every integer literal expression is paired with the integer itself in the relation. So @math{(2, 2)} is in @(eval), @math{(5, 5)} is in @(eval), and so on.
 
-The inference rules define the binary relation by defining the evidence for being in the relation. The rule makes use of meta-variables drawn from the non-terminals of the language grammar. A pair is in the relation if you can construct an instance of the rule (substituting some integer) in the rule.
+@margin-note{This part probably seems opaque at the moment, but it will become clearer as we work through more example, so don't worry.}
 
-(This part probably seems opaque at the moment, but it will become clearer as we work through more examples, so don't worry.)
+The inference rules define the binary relation by defining the evidence for being in the relation. The rule makes use of meta-variables drawn from the non-terminals of the language grammar. A pair is in the relation if you can construct an instance of the rule (substituting some integer) in the rule.
 
 The operational semantics @emph{defines} the meaning of Amount programs. The interpreter @emph{computes} that meaning. We can view the semantics as a specification, and the interpreter as an implementation.
 
