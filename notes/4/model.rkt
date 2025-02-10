@@ -29,39 +29,33 @@
    (eval v v)]
 
   [(eval e v_1)
-   (where v_2 ,(term (+ v_1 1)))
    ----------------------------- "add1"
-   (eval (add1 e) v_2)]
+   (eval (add1 e) ,(+ (term v_1) (term 1)))]
 
   [(eval e v_1)
-   (where v_2 ,(term (- v_1 1)))
    ----------------------------- "sub1"
-   (eval (add1 e) v_2)]
+   (eval (sub1 e) ,(- (term v_1) (term 1)))]
 
   [(eval e_1 v_1)
    (eval e_2 v_2)
-   (where v_3 ,(term (+ v_1 v_2)))
    ------------------------------- "add"
-   (eval (+ e_1 e_2) v_3)]
+   (eval (+ e_1 e_2) ,(+ (term v_1) (term v_2)))]
 
   [(eval e_1 v_1)
    (eval e_2 v_2)
-   (where v_3 ,(- (term v_1) (term v_2)))
    -------------------------------------- "sub"
-   (eval (- e_1 e_2) v_3)]
+   (eval (- e_1 e_2) ,(- (term v_1) (term v_2)))]
 
   [(eval e_1 v_1)
    (eval e_2 v_2)
-   (where v_3 ,(* (term v_1) (term v_2)))
    -------------------------------------- "mult"
-   (eval (* e_1 e_2) v_3)]
+   (eval (* e_1 e_2) ,(* (term v_1) (term v_2)))]
 
   [(eval e_1 v_1)
    (eval e_2 v_2)
-   (where v_3 ,(/ (term v_1) (term v_2)))
    (side-condition (not-equal? v_2 0))
    -------------------------------------- "div"
-   (eval (/ e_1 e_2) v_3)])
+   (eval (/ e_1 e_2) ,(/ (term v_1) (term v_2)))])
 
 (define (renderer e)
   (with-compound-rewriters (['+          (λ (lws) (list "(+ " (list-ref lws 2) " "   (list-ref lws 3) ")"))]
@@ -74,9 +68,19 @@
     (e)))
 
 (define (render-eval-rules-judgment)
-  (renderer (λ () (render-judgment-form eval))))
+  (renderer (λ () (parameterize ([judgment-form-cases '("add1"
+                                                        "sub1"
+                                                        "add"
+                                                        "sub"
+                                                        "mult"
+                                                        "div")])
+                    (render-judgment-form eval)))))
 
 (module+ test
   (test-judgment-holds (eval 42 42))
   (test-judgment-holds (eval (add1 3) 4))
-  (test-judgment-holds (eval (add1 (add1 3)) 5)))
+  (test-judgment-holds (eval (sub1 (add1 3)) 3))
+  (test-judgment-holds (eval (+ (add1 3) (sub1 5)) 8))
+  (test-judgment-holds (eval (- 7 (sub1 5)) 3))
+  (test-judgment-holds (eval (* 7 (sub1 5)) 28))
+  (test-judgment-holds (eval (/ 8 (sub1 5)) 2)))

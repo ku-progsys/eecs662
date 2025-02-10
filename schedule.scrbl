@@ -27,7 +27,7 @@
                      @elem{@secref["Hs2Rkt"] (Cont.)})
 
                (list @wk{2/4}
-                      ""
+                     @secref["A1"]
                      @secref["Amount"]
                      @elem{Arithmetic})
 
@@ -44,7 +44,7 @@
                (list @wk{2/25}
                       ""
                      @elem{Lambda Calculus}
-                     @elem{})
+                     @elem{@emph{@ta-initials Teaching}})
 
                (list @wk{3/4}
                       ""
@@ -63,38 +63,38 @@
 
                (list @wk{3/25}
                       ""
-                     @elem{}
-                     @elem{})
+                     @elem{Types}
+                     @elem{Types})
 
                (list @wk{4/1}
                       ""
-                     @elem{}
-                     @elem{})
+                     @elem{Types}
+                     @elem{Type inference})
 
                (list @wk{4/8}
                       ""
-                     @elem{}
-                     @elem{})
+                     @elem{Datatypes}
+                     @elem{Datatypes})
 
                (list @wk{4/15}
                       ""
-                     @elem{}
-                     @elem{})
-
+                     @elem{Pattern matching}
+                     @elem{State})
+            
                (list @wk{4/22}
                       ""
-                     @elem{}
-                     @elem{})
-
-               (list @wk{4/29}
-                      ""
-                     @elem{}
-                     @elem{})
+                     @elem{Objects}
+                     @elem{GC})
 
                (list @wk{5/6}
                       ""
-                     @elem{}
-                     @elem{})
+                     @elem{Analysis}
+                     @elem{Analysis})
+
+               (list @wk{5/6}
+                      ""
+                     @elem{Parser}
+                     @elem{Declarative})
 
                (list @wk{5/13}
                       ""
