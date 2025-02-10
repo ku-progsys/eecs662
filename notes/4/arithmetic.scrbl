@@ -31,7 +31,7 @@
      (filebox (emph "shell")
               (fancyverbatim "fish" (apply shell s)))))
 
-@title[#:tag "Arithmetic"]{Arithmetic: A Language of Numbers}
+@title[#:tag "Arithmetic"]{Arithmetic: Computing Numbers}
 
 @table-of-contents[]
 
@@ -118,6 +118,74 @@ Here's how to connect the dots between the semantics and interpreter: the interp
 
 This explanation of the correspondence is essentially a proof by induction of the interpreter's correctness.
 
-You can build up a step-by-step proof using the @(evalsym) relation to show that some expression indeed does evaluate to the value produced by the interpreter. For example, evaluation of @racket[(+ 43 (- (add1 23) (sub1 -8)))] will commence as 
+You can build up a step-by-step proof using the @(evalsym) relation to show that some expression indeed does evaluate to the value produced by the interpreter. All you have to do is use the above formal rules to derive a proof that the relation holds for the expression and the expected value. For example, the proof that @racket[(+ 43 (- (add1 23) (sub1 -8)))] evaluates to @racket[76] will be:
 
 @centered{@(scale (renderer (λ () (derivation->pict L (car (build-derivations (eval (+ 43 (- (add1 23) (sub1 -8))) 76)))))) 1.5)}
+
+
+Notice how application of each rule creates subgoals? We recursively apply any available rule until we reach the @tt{value} rule. The @tt{value} rule always concludes a subgoal to be proved because it does not depend on any other facts to be true. We discuss this further in @secref["Formal"].
+
+We can now define the correctness of our interpreter:
+
+@bold{Interpreter Correctness:} @emph{For all expressions @racket[e] and integers @racket[v], if @racket[e] @(evalsym) @racket[v], then the interpreter @racket[(interp e)] equals @racket[v].}
+
+@section{Correctness}
+
+We can turn the examples we have above into automatic test cases to verify our interpreter is correct. We will reuse the @racket[check-interp] function from @secref["Amount"].
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(define (check-interp e)
+  (check-eqv? (interp e) (eval e)))
+)
+
+To turn this into an automatic test case:
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(check-interp 42)
+(check-interp -8)
+(check-interp '(add1 30))
+(check-interp '(* 2 3))
+(check-interp '(+ 43 (add1 23)))
+)
+
+The problem, however, is that generating random Arithmetic programs is less obvious compared to generating random Amount programs (i.e. random integers). Randomly generating programs for testing is its own well studied and active research area. To side-step this wrinkle, here is a small utility for generating random Amount programs, which you can use, without needing the understand how it was implemented. Don't worry, you will not be asked to write programs like this in the exam or assignments.
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(define (random-expr)
+   (contract-random-generate
+    (flat-rec-contract b
+                       (list/c 'add1 b)
+                       (list/c 'sub1 b)
+                       (list/c '+ b b)
+                       (list/c '- b b)
+                       (list/c '* b b)
+                       (list/c '/ b b)
+                       (integer-in #f #f))))
+)
+
+Calling @racket[(random-expr)] now will produce random programs from our grammar:
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(random-expr)
+(random-expr)
+(random-expr)
+(random-expr)
+)
+
+You can run this in a loop to check if our Arithmetic language interpreter complies with Racket semantics:
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(for ([i (in-range 100)])
+  (check-interp (random-expr)))
+)
+
+We see a bunch of failures because of division by 0, which we did not handle in our language semantics nor our interpreter. We will revisit this again when we look at how to handle errors.
+
+At this point can we find any other counter-example to interpreter correctness that is not division by 0? It’s tempting to declare victory. But... can you think of a valid input (i.e. some program) that might refute the correctness claim?
+
+Think on it.

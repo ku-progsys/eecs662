@@ -123,7 +123,7 @@ The operational semantics @emph{defines} the meaning of Amount programs. The int
 
 Characterizing the correctness of the interpreter boils down to the following statement:
 
-@bold{Interpreter Correctness:} @emph{For all expressions @racket[e] and integers @racket[i], if @racket[e] @(eval) @racket[i], then the interpreter @racket[(interp e)] equals @racket[i].}
+@bold{Interpreter Correctness:} @emph{For all expressions @racket[e] and integers @racket[v], if @racket[e] @(eval) @racket[v], then the interpreter @racket[(interp e)] equals @racket[v].}
 
 We now have a complete (if overly simple) programming language with an operational semantics. Now let's write an interpreter.
 

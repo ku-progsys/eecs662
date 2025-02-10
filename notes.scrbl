@@ -14,7 +14,4 @@ suggestions for improving the material, @bold{please} submit an
 @include-section{notes/2/hs2rkt.scrbl}
 @include-section{notes/3/numbers.scrbl}
 @include-section{notes/4/arithmetic.scrbl}
-
-@;{
-@centered{@(scale (renderer (λ () (derivation->pict L (car (build-derivations (eval () ((let ((x 3)) (λ (y) (+ y x))) 2) 5)))))) 1.5)}
-}
+@include-section{notes/5/formal.scrbl}

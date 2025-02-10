@@ -29,7 +29,7 @@
                (list @wk{2/4}
                      @secref["A1"]
                      @secref["Amount"]
-                     @elem{Arithmetic})
+                     @secref["Arithmetic"])
 
                (list @wk{2/11}
                       ""
