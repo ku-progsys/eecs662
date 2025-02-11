@@ -43,7 +43,7 @@ We will now, through the process of @bold{iterative refinement} grow the languag
 
 We will add arithmetic operations to Amount, such that we can now increment, decrement numbers as well as do arithmetic operations such as addition, subtraction, multiplication, and division. We will call this new language Arithmetic. It is still a very simple language, but at least our programs will compute something.
 
-@section{Concrete syntax for Arithmetic}
+@section{Syntax for Arithmetic}
 
 Arithmetic extends Amount to have some unary and binary operations. It contains the @tt{#lang racket} line followed by a single expression. The grammar of concrete expressions is:
 

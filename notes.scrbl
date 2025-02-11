@@ -15,3 +15,4 @@ suggestions for improving the material, @bold{please} submit an
 @include-section{notes/3/numbers.scrbl}
 @include-section{notes/4/arithmetic.scrbl}
 @include-section{notes/5/formal.scrbl}
+@include-section{notes/6/booleans.scrbl}
