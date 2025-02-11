@@ -31,6 +31,9 @@ jobs:
           variant: 'CS'
           version: '8.14'
 
+      - name: Install Racket Packages
+        run: raco pkg install --auto scribble-math
+
       # - name: Test
       #   run: raco test
 
