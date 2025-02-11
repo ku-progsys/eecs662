@@ -33,8 +33,8 @@
 
                (list @wk{2/11}
                       ""
-                     @elem{Booleans}
-                     @elem{Formal Semantics})
+                     @secref["Formal"]
+                     @elem{Booleans})
 
                (list @wk{2/18}
                       ""
