@@ -79,3 +79,67 @@ We define the operational semantics as before in terms of the @(evalsym) relatio
 @centered{@(scale (render-eval-rules-judgment) 1.5)}
 
 Values in our language form the base case in our inductive relation. The @tt{value} rule shows the meaning for integers, @tt{#t}, and @tt{#f} respectively.
+
+@racket[(zero? e)] has two cases. For all expressions @tt{e} @tt{zero-t} rule means @tt{#t} if @tt{e} means {0}. Alternatively, it means @tt{#f} (rule @tt{zero-f}) if @tt{e} is non-zero.
+
+For all expressions @tt{e1} and @tt{e2}, @racket[(and e1 e2)] @(evalsym) @tt{#f}
+is in the relation if @tt{e1} @(evalsym) @tt{#f}. Otherwise, the relation has
+the same meaning as @tt{e2}. Note, how a definition like this works for both
+booleans and integers. @racket[(and #t #t)] is @tt{#t}, @racket[(and #f #t)] is
+@tt{#f}, @racket[(and 4 5)] is @tt{5}, and so on.
+
+For all expressions @tt{e1} and @tt{e2}, @racket[(<= e1 e2)] @(evalsym) @tt{#t}
+if @tt{e1} means a value less than the meaning of @tt{e2}.
+
+For all expressions @tt{e1}, @tt{e2}, and @tt{e3}, @racket[(if e1 e2 e3)] @(evalsym) @tt{e2} is in the relation if @tt{e1} means some non-false value.
+Otherwise @racket[(if e1 e2 e3)] @(evalsym) @tt{e3} is in the relation if @tt{e1} means false.
+
+@section{Interpreter for Con}
+
+We can now translate these operational semantics rules to the interpreter:
+
+@codeblock-include["con/interp.rkt"]
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(interp '(+ 42 (sub1 34)))
+(interp '(zero? (- 5 (sub1 6))))
+(interp '(if (zero? 0) (add1 5) (sub1 5)))
+)
+
+@margin-note{You can use builtin Racket functions like @racket[and],
+@racket[zero?] instead of writing pattern matches. However, you have to ensure
+that the semantics of such builtin functions align with the semantics of the
+target language you are implementing. The question then is: are the semantics of
+@racket[and] and @racket[zero?] in our language, Con, the same as Racket?}
+
+We can find a one-to-one correspondence between what the interpreter for Con
+does and the semantics of the language. Where ever @(evalsym) shows up in the
+premise of an operational semantics, it results in recursively calling our
+interpreter @racket[(interp ...)]. When we have separate rules that may give
+different meaning to the same language construct we use a pattern match and
+return the right value.
+
+@section{Correctness}
+
+We can turn the above examples into automatic test cases:
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(check-eqv? (interp '(+ 42 (sub1 34))) 75)
+(check-eqv? (interp '(zero? (- 5 (sub1 6)))) #t)
+(check-eqv? (interp '(if (zero? 0) (add1 5) (sub1 5))) 6)
+)
+
+However, unlike Arithmetic it is easy for us to write malformed programs, i.e., programs that do not mean anything.
+In other words the meaning of such programs are undefined in our semantics and would most likely crash our interpreter with unexpected error messages or produce unexpected results.
+
+Here are a couple of programs in Con that are valid according to the syntax, but do not mean anything:
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(eval:error (interp '(add1 #t)))
+(eval:error (interp '(<= #t 7)))
+)
+
+Our interpreter right now does not handle errors gracefully and crashes with errors directly from the underlying Racket runtime.
