@@ -38,7 +38,7 @@
 
                (list @wk{2/18}
                       ""
-                     @elem{Errors}
+                     @secref["Errors"]
                      @elem{Lambda})
 
                (list @wk{2/25}
