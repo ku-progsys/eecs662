@@ -48,7 +48,7 @@ So we will add some operations @racket[if], @racket[<=], @racket[zero?], and @ra
 
 @section{Syntax}
 
-@emph{Con} extends @secref["Arithmetic"] by these operations we described above.
+@emph{Con} extends @secref{Arithmetic} by these operations we described above.
 It contains @tt{#lang racket} followed by a single expression.
 Our expressions have integers, booleans, and additional operation like @racket[and], @racket[if], @racket[zero?] and so on. The grammar of concrete expression is:
 

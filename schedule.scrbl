@@ -18,27 +18,27 @@
 
                (list @wk{1/21}
                       ""
-                     @secref["Intro"]
+                     @secref{Intro}
                      @elem{@emph{@prof-initials Traveling}})
 
                (list @wk{1/28}
                       ""
-                     @secref["Hs2Rkt"]
-                     @elem{@secref["Hs2Rkt"] (Cont.)})
+                     @secref{Hs2Rkt}
+                     @elem{@secref{Hs2Rkt} (Cont.)})
 
                (list @wk{2/4}
-                     @secref["A1"]
-                     @secref["Amount"]
-                     @secref["Arithmetic"])
+                     @secref{A1}
+                     @secref{Amount}
+                     @secref{Arithmetic})
 
                (list @wk{2/11}
                       ""
-                     @secref["Formal"]
-                     @secref["Booleans"])
+                     @secref{Formal}
+                     @secref{Booleans})
 
                (list @wk{2/18}
                       ""
-                     @secref["Errors"]
+                     @secref{Errors}
                      @elem{Lambda})
 
                (list @wk{2/25}

@@ -75,7 +75,7 @@ The operational semantics reflects the dependence of the subexpressions as well.
 
 @centered{@(scale (render-eval-rules-judgment) 1.5)}
 
-The rule for values is omitted; it's the exact semantics of integers from @secref["Amount"].
+The rule for values is omitted; it's the exact semantics of integers from @secref{Amount}.
 
 The meaning of the increment (@racket[add1]) and decrement (@racket[sub1])operations depend on only one subexpression. In particular they have @bold{premises} over the line. If the premise is true, the @bold{conclusion} below the line is true as well. These rules are conditional on the premise being true. In contrast, the rule for values applies unconditionally.
 
@@ -123,7 +123,7 @@ You can build up a step-by-step proof using the @(evalsym) relation to show that
 @centered{@(scale (renderer (λ () (derivation->pict L (car (build-derivations (eval (+ 43 (- (add1 23) (sub1 -8))) 76)))))) 1.5)}
 
 
-Notice how application of each rule creates subgoals? We recursively apply any available rule until we reach the @tt{value} rule. The @tt{value} rule always concludes a subgoal to be proved because it does not depend on any other facts to be true. We discuss this further in @secref["Formal"].
+Notice how application of each rule creates subgoals? We recursively apply any available rule until we reach the @tt{value} rule. The @tt{value} rule always concludes a subgoal to be proved because it does not depend on any other facts to be true. We discuss this further in @secref{Formal}.
 
 We can now define the correctness of our interpreter:
 
@@ -131,7 +131,7 @@ We can now define the correctness of our interpreter:
 
 @section{Correctness}
 
-We can turn the examples we have above into automatic test cases to verify our interpreter is correct. We will reuse the @racket[check-interp] function from @secref["Amount"].
+We can turn the examples we have above into automatic test cases to verify our interpreter is correct. We will reuse the @racket[check-interp] function from @secref{Amount}.
 
 @#reader scribble/comment-reader
 (examples #:eval ev

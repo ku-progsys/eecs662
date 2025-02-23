@@ -4,7 +4,7 @@
 
 (provide interp)
  
-;; Expr -> Integer
+;; Expr -> Value
 ;; Interpret given expression
 (define (interp e)
   (match e
@@ -42,7 +42,7 @@
     [#f #f]
     [_  (interp e2)]))
 
-(define (interp-if e1 e2 e3)
+(define (interp-if e1 e2 e3)
   (match (interp e1)
     [#f (interp e3)]
     [_  (interp e2)]))
