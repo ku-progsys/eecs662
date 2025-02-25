@@ -66,7 +66,7 @@ where our interpreter computes a wrong value. This approach of failing in our
 host language (Racket) works, but we cannot control when our errors happen based
 on our language semantics. Moreover, if errors happen, language shows errors
 from Racket even though our user was programming in Con. Imagine if you were
-writing a Python program and saw and error from C or JavaScript program and saw
+writing a Python program and saw an error from C or JavaScript program and saw
 a C++ exception? A good language hides implementation details and gives precise
 semantics for when errors happen.
 
