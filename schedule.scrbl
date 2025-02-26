@@ -39,16 +39,16 @@
                (list @wk{2/18}
                       ""
                      @secref{Errors}
-                     @elem{Lambda})
+                     @elem{Let bindings})
 
                (list @wk{2/25}
                       ""
-                     @elem{Lambda Calculus}
+                     @elem{Functions}
                      @elem{@emph{@ta-initials Teaching}})
 
                (list @wk{3/4}
-                      ""
-                     @elem{Let bindings}
+                     @secref{A2}
+                     @elem{Lambdas}
                      @elem{Programs as Data Structures})
 
                (list @wk{3/11}
