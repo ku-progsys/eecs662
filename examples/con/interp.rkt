@@ -4,7 +4,7 @@
 
 (provide interp)
  
-;; Expr -> Integer
+;; Expr -> Value
 ;; Interpret given expression
 (define (interp e)
   (match e

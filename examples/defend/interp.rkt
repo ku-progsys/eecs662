@@ -2,7 +2,7 @@
 
 (require rackunit)
 
-(provide interp)
+(provide interp only-int)
  
 ;; Expr -> Value
 ;; Interpret given expression
