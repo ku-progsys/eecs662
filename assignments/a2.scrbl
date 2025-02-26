@@ -120,7 +120,7 @@ To implement this, you should:
 
 @section{Testing}
 
-You should test your code by writing test cases and adding them to relevant files. Use the command @tt{raco test [filename]} to test your code. Alternatively, pressing “Run” in Dr. Racket will also run your test cases.
+You should test your code by writing test cases and adding them to relevant files. Use the command @tt{raco test hw2.rkt} to test your code. Alternatively, pressing “Run” in Dr. Racket will also run your test cases. There are few test cases already included in @tt{hw2.rkt}. These are by no means exhaustive, and you should add your own test cases to check your interpreter is correct.
 
 For grading, your submitted interpreter will be tested on multiple programs drawn from this language. Writing your own test cases will give you confidence that your interpreter can handle previously unseen programs.
 
