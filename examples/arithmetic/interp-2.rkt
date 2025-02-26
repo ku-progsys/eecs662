@@ -14,4 +14,4 @@
     [`(+ ,e1 ,e2) (+ (interp e1) (interp e2))]
     [`(- ,e1 ,e2) (- (interp e1) (interp e2))]
     [`(* ,e1 ,e2) (* (interp e1) (interp e2))]
-    [`(/ ,e1 ,e2) (/ (interp e1) (interp e2))]))
+    [`(/ ,e1 ,e2) (quotient (interp e1) (interp e2))]))

@@ -41,5 +41,11 @@
 (define ev
   (make-base-eval #:lang 'racket))
 
+(define ev2
+  (make-base-eval #:lang 'racket))
+
 (ev '(require (only-in racket/pretty pretty-print-columns)))
 (ev '(pretty-print-columns 50))
+
+(ev2 '(require (only-in racket/pretty pretty-print-columns)))
+(ev2 '(pretty-print-columns 50))

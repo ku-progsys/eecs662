@@ -11,6 +11,10 @@
 @(for-each (λ (f) (ev `(require (file ,(path->string (build-path "examples" "arithmetic" f))))))
 	   '("interp.rkt"))
 
+@(ev2 '(require rackunit))
+@(for-each (λ (f) (ev2 `(require (file ,(path->string (build-path "examples" "arithmetic" f))))))
+	   '("interp-2.rkt"))
+
 @(define core-racket
   (parameterize ([sandbox-output 'string]
                  [sandbox-error-output 'string]
@@ -184,8 +188,38 @@ You can run this in a loop to check if our Arithmetic language interpreter compl
   (check-interp (random-expr)))
 )
 
-We see a bunch of failures because of division by 0, which we did not handle in our language semantics nor our interpreter. We will revisit this again when we look at how to handle errors.
+We see a bunch of failures because of division by 0, which we did not handle in our language semantics nor our interpreter. We will revisit this again when we look at how to handle errors in @secref{Errors}.
 
 At this point can we find any other counter-example to interpreter correctness that is not division by 0? It’s tempting to declare victory. But... can you think of a valid input (i.e. some program) that might refute the correctness claim?
 
 Think on it.
+
+@section{Does our language always produce integers?}
+
+Values in our language are integers only. However, does our language always produce integers? Let us try this with a very simple program:
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(interp '(/ 5 3))
+)
+
+Why is it returning values as a fraction? Fractions are not a part of our language! Fractions, or more generally, rational numbers are defined in Racket.
+
+@#reader scribble/comment-reader
+(examples #:eval ev
+(/ 5 3)
+)
+
+Our language Arithmetic looks like Racket, but has different semantics, primarily because our language only has integers. What we are seeing is the bubbling up semantics of Racket, our @emph{source language}, into Arithmetic, our @emph{target language}. This is a common problem in language design: the semantics of your source language will tend to show up in your target language and as a language designer you have to be careful about such cases! For example, Python is implemented in C, but Python supports arbitrary sized integers, whereas C is only limited machine-sized integers. Python developers have to be careful to ensure that C numerics behavior does not show up in Python.
+
+Thankfully, our language Arithmetic is very simple. To fix this, we only have to update the division of two integers to return their @racket[quotient].
+
+@codeblock-include["arithmetic/interp-2.rkt"]
+
+This fixes the semantics of our language:
+
+@#reader scribble/comment-reader
+(examples #:eval ev2
+(interp '(/ 4 2))
+(interp '(/ 5 3))
+)
