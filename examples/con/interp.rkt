@@ -15,7 +15,7 @@
     [`(+ ,e1 ,e2)      (+ (interp e1) (interp e2))]
     [`(- ,e1 ,e2)      (- (interp e1) (interp e2))]
     [`(* ,e1 ,e2)      (* (interp e1) (interp e2))]
-    [`(/ ,e1 ,e2)      (/ (interp e1) (interp e2))]
+    [`(/ ,e1 ,e2)      (quotient (interp e1) (interp e2))]
     [`(zero? ,e)       (interp-zero? e)]
     [`(and ,e1 ,e2)    (interp-and e1 e2)]
     [`(<= ,e1 ,e2)     (<= (interp e1) (interp e2))]
