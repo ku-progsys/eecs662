@@ -76,7 +76,7 @@ Add the following forms of expression to the language:
 @item{@racket[(or e e)]: @racket[(or e1 e2)] means @tt{e1} if @tt{e1} does not mean @tt{#f}, else @racket[(or e1 e2)] means the same as @tt{e2}.}
 @item{@racket[(- e)]: flips the sign of @tt{e}, i.e., computes @racket[(- 0 e)].}
 @item{@racket[(not e)]: compute the logical negation of @tt{e}. Negation of @racket[#f] is @racket[#t], negation of any other value is @racket[#f].}
-@item{@racket[(% e e)]: @racket[(% e1 e2)] means the remainder when dividing @tt{e1} by @tt{e2}. The Racket builtin remainder will be useful.}
+@item{@racket[(% e e)]: @racket[(% e1 e2)] means the remainder when dividing @tt{e1} by @tt{e2}. The Racket builtin @racket[remainder] will be useful.}
 ]
 
 To do this, you should:
