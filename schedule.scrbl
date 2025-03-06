@@ -39,7 +39,7 @@
                (list @wk{2/18}
                       ""
                      @secref{Errors}
-                     @elem{Let bindings})
+                     @secref{Let})
 
                (list @wk{2/25}
                       ""
