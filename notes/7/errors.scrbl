@@ -68,8 +68,10 @@ As an example, here is a simple program in our Con interpreter:
 (eval:error (interp '(/ 5 (sub1 1))))
 )
 
-The error shows words like @racket[contract] and @racket[number?]. Our language does not
-have contracts or the @racket[number?] predicate! However, things could have
+The error shows words like @racket[contract], @racket[number?], and @racket[quotient].
+Our language does not have contracts or the @racket[number?] predicate or
+exposes the @racket[quotient] operator to the user! These are implementation
+details that the user of a language need not care about. However, things could have
 been worse. Here at least our interpreter crashes, but there could be scenarios
 where our interpreter computes a wrong value. This approach of failing in our
 host language (Racket) works, but we cannot control when our errors happen based
