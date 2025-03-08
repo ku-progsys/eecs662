@@ -70,7 +70,7 @@ As an example, here is a simple program in our Con interpreter:
 
 The error shows words like @racket[contract], @racket[number?], and @racket[quotient].
 Our language does not have contracts or the @racket[number?] predicate or
-exposes the @racket[quotient] operator to the user! These are implementation
+expose the @racket[quotient] operator to the user! These are implementation
 details that the user of a language need not care about. However, things could have
 been worse. Here at least our interpreter crashes, but there could be scenarios
 where our interpreter computes a wrong value. This approach of failing in our

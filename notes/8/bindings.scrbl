@@ -145,6 +145,6 @@ We can write a few cases for the interpreter to see if it behaves as we would ex
                         (/ x 2)))) 6)
 (check-exn exn:fail? (λ ()
                         (interp '(let ((x (add1 6)))
-                                (let ((x (+ 6 x)))
-                                    (/ x y))))))
+                                   (let ((x (+ 6 x)))
+                                     (/ x y))))))
 )
