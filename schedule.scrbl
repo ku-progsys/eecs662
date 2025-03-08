@@ -43,13 +43,13 @@
 
                (list @wk{2/25}
                       ""
-                     @elem{Functions}
+                     @secref{Lambda}
                      @elem{@emph{@ta-initials Teaching}})
 
                (list @wk{3/4}
                      @secref{A2}
-                     @elem{Lambdas}
-                     @elem{Programs as Data Structures})
+                     @elem{@secref{Lambda} (Cont.)}
+                     @elem{@secref{Lambda} (Cont.)})
 
                (list @wk{3/11}
                       ""
@@ -63,13 +63,13 @@
 
                (list @wk{3/25}
                       ""
-                     @elem{Types}
+                     @elem{Programs as Data Structures}
                      @elem{Types})
 
                (list @wk{4/1}
                       ""
                      @elem{Types}
-                     @elem{Type inference})
+                     @elem{Type Inference})
 
                (list @wk{4/8}
                       ""
