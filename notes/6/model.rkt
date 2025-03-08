@@ -77,6 +77,7 @@
 
   [(eval e_1 v_1)
    (side-condition (not-equal? v_1 #f))
+   (eval e_2 v_2)
    -------------------------------------- "and-2"
    (eval (and e_1 e_2) v_2)]
 
