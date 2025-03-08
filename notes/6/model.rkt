@@ -72,14 +72,13 @@
    (eval (<= e_1 e_2) ,(<= (term v_1) (term v_2)))]
 
   [(eval e_1 #f)
-   (eval e_2 v_2)
    -------------------------------------- "and-1"
-   (eval (and e_1 e_2) v_2)]
+   (eval (and e_1 e_2) #f)]
 
   [(eval e_1 v_1)
    (side-condition (not-equal? v_1 #f))
    -------------------------------------- "and-2"
-   (eval (and e_1 e_2) v_1)]
+   (eval (and e_1 e_2) v_2)]
 
   [(eval e_1 #f)
    (eval e_3 v_3)
