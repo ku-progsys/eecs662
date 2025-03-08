@@ -44,8 +44,18 @@
 (define ev2
   (make-base-eval #:lang 'racket))
 
+(define ev-time
+  (parameterize ([sandbox-path-permissions '((read "examples/lambda"))]
+                 [sandbox-output 'string]
+                 [sandbox-error-output 'string]
+                 [sandbox-eval-limits '(0.25 50)])
+    (make-evaluator 'racket)))
+
 (ev '(require (only-in racket/pretty pretty-print-columns)))
 (ev '(pretty-print-columns 50))
 
 (ev2 '(require (only-in racket/pretty pretty-print-columns)))
 (ev2 '(pretty-print-columns 50))
+
+(ev-time '(require (only-in racket/pretty pretty-print-columns)))
+(ev-time '(pretty-print-columns 50))
