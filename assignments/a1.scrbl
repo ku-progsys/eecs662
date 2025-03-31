@@ -2,6 +2,8 @@
 
 @title[#:tag "A1"]{A1: Racket Primer}
 
+@bold{Due:} February 10, 2025
+
 The goal of this assignment is to gain practice programming in Racket.
 
 You are given a @tt{hw1.rkt} file (on Canvas under "Files"), that contains a number of sections. In each section there are several function “stubs,” i.e. incomplete function definitions with type signatures, descriptions, and a small set of tests. Each function has a bogus (but type correct) body marked with a “TODO” comment. Your job is to replace each of these expressions with a correct implementation of the function.

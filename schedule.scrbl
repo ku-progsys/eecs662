@@ -63,38 +63,38 @@
 
                (list @wk{3/25}
                       ""
-                     @elem{Programs as Data Structures}
-                     @elem{Types})
+                     @elem{Environments}
+                     @elem{Programs as Data Structures})
 
                (list @wk{4/1}
                       ""
+                     @elem{State}
+                     @elem{GC})
+
+               (list @wk{4/8}
+                     @secref{A3}
                      @elem{Types}
                      @elem{Type Inference})
 
-               (list @wk{4/8}
-                      ""
-                     @elem{Datatypes}
-                     @elem{Datatypes})
-
                (list @wk{4/15}
                       ""
-                     @elem{Pattern matching}
+                     @elem{Datatypes}
                      @elem{State})
             
                (list @wk{4/22}
                       ""
                      @elem{Objects}
-                     @elem{GC})
+                     @elem{})
 
                (list @wk{5/6}
                       ""
                      @elem{Analysis}
-                     @elem{Analysis})
+                     @elem{})
 
                (list @wk{5/6}
                       ""
-                     @elem{Parser}
-                     @elem{Declarative})
+                     @elem{Declarative}
+                     @elem{Parser})
 
                (list @wk{5/13}
                       ""

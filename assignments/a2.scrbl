@@ -6,6 +6,8 @@
 
 @title[#:tag "A2"]{A2: Primitives and Conditionals}
 
+@bold{Due:} March 5, 2025
+
 In a forgotten corner of an old electronics lab, an outdated hardware processor
 sat, long unused and gathering dust. Once a cutting-edge piece of technology, it
 had now become a relic of the past. The processor, though old, was still
@@ -26,7 +28,7 @@ features. We will call this language @emph{Con+}. This will require you to
 change the language in a similar fashion as we have been doing in
 class.
 
-You are given a zip file on Canvas @tt{hw2.rkt} with a starter code for the
+You are given a file on Canvas @tt{hw2.rkt} with a starter code for the
 assignment. This is same as the code for the @secref{Errors} language from
 class. You should add your own test cases to ensure your submission is correct.
 You are tasked with extending the language to Con+ in the following ways:
