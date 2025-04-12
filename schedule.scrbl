@@ -63,23 +63,23 @@
 
                (list @wk{3/25}
                       ""
-                     @elem{Environments}
-                     @elem{Programs as Data Structures})
+                     @secref{Env}
+                     @elem{@secref{Env} (Cont.)})
 
                (list @wk{4/1}
                       ""
-                     @elem{State}
-                     @elem{GC})
+                     @elem{Programs as Data Structures}
+                     @elem{State})
 
                (list @wk{4/8}
                      @secref{A3}
-                     @elem{Types}
-                     @elem{Type Inference})
+                     @elem{GC}
+                     @elem{Types})
 
                (list @wk{4/15}
                       ""
-                     @elem{Datatypes}
-                     @elem{State})
+                     @elem{Types}
+                     @elem{Type Inference})
             
                (list @wk{4/22}
                       ""
