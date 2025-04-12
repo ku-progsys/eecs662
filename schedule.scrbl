@@ -68,7 +68,7 @@
 
                (list @wk{4/1}
                       ""
-                     @elem{Programs as Data Structures}
+                     @secref{Rewrites}
                      @elem{State})
 
                (list @wk{4/8}
