@@ -6,7 +6,7 @@
 
 @title[#:tag "A4"]{A4: Term Rewrites and Unifying Program State}
 
-@bold{Due:} April 22, 2025
+@bold{Due:} April 21, 2025
 
 You’ve just joined NebulaSoft, a quirky mid-size company with a custom
 programming language that was once the darling of internal tools. Two years ago,
@@ -248,8 +248,9 @@ language.}
 @section{Testing}
 
 You should test your code by writing test cases and adding them to relevant
-files. Use the command @tt{raco test [filename]} to test your code.
-Alternatively, pressing “Run” in Dr. Racket will also run your test cases.
+files. The starter code is available in @tt{hw4.zip} on Canvas. Use the command
+@tt{raco test [filename]} to test your code. Alternatively, pressing “Run” in
+Dr. Racket will also run your test cases.
 
 For grading, your submitted interpreter will be tested on multiple programs
 drawn from this language. Writing your own test cases will give you confidence

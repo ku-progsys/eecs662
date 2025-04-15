@@ -1,6 +1,6 @@
 #lang racket
 
-(provide interp eval)
+(provide interp)
 
 (struct Closure (E e) #:prefab)
 
