@@ -79,14 +79,14 @@
                (list @wk{4/15}
                       ""
                      @elem{Types}
-                     @elem{Type Inference})
+                     @elem{Types})
             
                (list @wk{4/22}
                      @secref{A4}
-                     @elem{Objects}
-                     @elem{})
+                     @elem{Type Inference}
+                     @elem{Objects})
 
-               (list @wk{5/6}
+               (list @wk{4/29}
                       ""
                      @elem{Analysis}
                      @elem{})
