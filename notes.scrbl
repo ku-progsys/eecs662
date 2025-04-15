@@ -21,3 +21,4 @@ suggestions for improving the material, @bold{please} submit an
 @include-section{notes/9/lambda.scrbl}
 @include-section{notes/10/environments.scrbl}
 @include-section{notes/11/rewrites.scrbl}
+@include-section{notes/12/state.scrbl}

@@ -69,12 +69,12 @@
                (list @wk{4/1}
                       ""
                      @secref{Rewrites}
-                     @elem{State})
+                     @secref{State})
 
                (list @wk{4/8}
                      @secref{A3}
-                     @elem{GC}
-                     @elem{Types})
+                     @elem{@secref{State} (Cont.)}
+                     @elem{GC})
 
                (list @wk{4/15}
                       ""
