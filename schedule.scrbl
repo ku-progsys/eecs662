@@ -82,7 +82,7 @@
                      @elem{Type Inference})
             
                (list @wk{4/22}
-                      ""
+                     @secref{A4}
                      @elem{Objects}
                      @elem{})
 
