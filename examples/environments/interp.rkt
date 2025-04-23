@@ -48,7 +48,6 @@
   (match e
     [(? integer?)            e]
     [(? boolean?)            e]
-    [(? Closure?)            e]
     [(? symbol?)             (lookup E e)]
     [`(λ (,x) ,e1)           (Closure E e)]
     [`(add1 ,e)              (+ (interp E e) 1)]
