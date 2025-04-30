@@ -74,7 +74,7 @@
                (list @wk{4/8}
                      @secref{A3}
                      @elem{@secref{State} (Cont.)}
-                     @elem{GC})
+                     @secref{Runtime})
 
                (list @wk{4/15}
                       ""
@@ -84,7 +84,7 @@
                (list @wk{4/22}
                      @secref{A4}
                      @secref{Types}
-                     @elem{Type Inference})
+                     @secref{Inference})
 
                (list @wk{4/29}
                       ""

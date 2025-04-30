@@ -1,0 +1,150 @@
+#lang racket
+
+(provide interp)
+
+(struct Closure (E e) #:prefab)
+
+(define (store E x v)
+  (cons (cons x v) E))
+
+(define (lookup E x)
+  (match E
+    ['() (error "variable not found!")]
+    [(cons (cons y v) E) (if (eq? x y) v
+                             (lookup E x))]))
+
+(define (interp-div E S e1 e2)
+  (match* ((only-int (interp E S e1)) (only-int (interp E S e2)))
+    [(v1 0)  (error "Division by 0 not allowed!")]
+    [(v1 v2) (quotient v1 v2)]))
+
+(define (only-int v)
+  (if (integer? v)
+      v
+      (error "Integer expected!")))
+
+(define (interp-zero? E S e)
+  (match (interp E S e)
+    [0 #t]
+    [_ #f]))
+
+(define (interp-and E S e1 e2)
+  (match (interp E S e1)
+    [#f #f]
+    [_  (interp E S e2)]))
+
+(define (interp-if E S e1 e2 e3)
+  (match (interp E S e1)
+    [#f (interp E S e3)]
+    [_  (interp E S e2)]))
+
+(define (interp-let E S x e1 e2)
+  (let* ((v1 (interp E S e1))
+         (E2 (store E x v1)))
+    (interp E2 S e2)))
+
+(define (interp-seq E S es)
+  (match es
+    [(cons e '()) (interp E S e)]
+    [(cons e es)  (begin
+                    (interp E S e)
+                    (interp-seq E S es))]))
+
+
+
+
+(define (interp-println E S e)
+  (let ((v (interp E S e)))
+    (begin
+      (displayln v)
+      v)))
+
+(define (interp-new E S e)
+  (let ((v (interp E S e))
+        (l (gensym)))
+    (begin
+      (gc E S)
+      (hash-set! (unbox S) l v)
+      l)))
+
+(define (interp-deref E S e)
+  (let ((l (interp E S e)))
+    (hash-ref (unbox S) l)))
+
+(define (interp-set E S e1 e2)
+  (let ((l (interp E S e1))
+        (v (interp E S e2)))
+    (begin
+      (hash-set! (unbox S) l v)
+      v)))
+
+(define (copy-locs locs src dst)
+  (match locs
+    ['() dst]
+    [(cons l locs) (let ((val (hash-ref src l)))
+                     (begin
+                       (hash-set! dst l val)
+                       (if (symbol? val)
+                           (copy-locs (cons val locs) src dst)
+                           (copy-locs locs src dst))))]))
+  
+; Env -> State -> State
+(define (gc E S)
+  (let* ((vals (map cdr E))
+         (locs (filter symbol? vals)))
+    (displayln S)
+    (set-box! S (copy-locs locs (unbox S) (make-hash)))))
+
+; Env -> State -> Expr -> Val)
+(define (interp E S e)
+  (match e
+    [(? integer?)            e]
+    [(? boolean?)            e]
+    [(? Closure?)            e]
+    [(? symbol?)             (lookup E e)]
+    [`(λ (,x) ,e1)           (Closure E e)]
+    [`(add1 ,e)              (+ (interp E S e) 1)]
+    [`(sub1 ,e)              (- (interp E S e) 1)]
+    [`(zero? ,e)             (interp-zero? E S e)]
+    [`(+ ,e1 ,e2)            (+ (only-int (interp E S e1)) (only-int (interp E S e2)))]
+    [`(- ,e1 ,e2)            (- (only-int (interp E S e1)) (only-int (interp E S e2)))]
+    [`(* ,e1 ,e2)            (* (only-int (interp E S e1)) (only-int (interp E S e2)))]
+    [`(/ ,e1 ,e2)            (interp-div E S e1 e2)]
+    [`(<= ,e1 ,e2)           (<= (only-int (interp E S e1)) (only-int (interp E S e2)))]
+    [`(and ,e1 ,e2)          (interp-and E S e1 e2)]
+    [`(if ,e1 ,e2 ,e3)       (interp-if E S e1 e2 e3)]
+    [`(let ((,x ,e1)) ,e2)   (interp-let E S x e1 e2)]
+    [`(new ,e)               (interp-new E S e)]
+    [`(deref ,e)             (interp-deref E S e)]
+    [`(set ,e1 ,e2)          (interp-set E S e1 e2)]
+    [`(seq ,@es)             (interp-seq E S es)]
+    
+    [`(read-int)             (only-int (read))]
+    [`(println ,e)           (interp-println E S e)]
+
+
+    [`(,e1 ,e2)              (match (interp E S e1)
+                               [(Closure E1 `(λ (,x) ,e3)) (interp (store E1 x (interp E S e2)) S e3)]
+                               [_            (error "Cannot apply non-function!")])]
+    [_                       (error "Parser error!")]))
+
+(define (eval e)
+  (let ((E '())
+        (S (box (make-hash))))
+    (interp E S e)))
+
+#|
+(eval '(let ((f (λ (x)
+                    (let ((g (new 5)))
+                      (+ x (deref g))))))
+           (* (f 1) (f 2))))
+|#
+
+(eval '(let ((a (new 1)))
+         (seq
+          (let ((b (new 2)))
+           (+ 3 (deref b)))
+          (let ((c (new 4)))
+            (+ 4 (deref c)))
+          (let ((d (new 45)))
+            (+ 4 (deref d))))))
