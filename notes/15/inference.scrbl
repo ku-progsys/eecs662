@@ -38,3 +38,14 @@
 TODO
 
 @codeblock-include["types/inference.rkt"]
+
+@itemlist[
+@item{substitution list = []}
+@item{for LHS and RHS in each constraint:
+@itemlist[
+    @item{continue if LHS == RHS}
+    @item{substitute all occurrences of LHS with RHS in both constraint and substitution list and add the substitution LHS -> RHS to substitution list if LHS is not a type}
+    @item{substitute all occurrences of RHS with LHS in both constraint and substitution list and add the substitution RHS -> LHS to substitution list if if RHS is not a type}
+    @item{create a new constraint mapping domain of LHS with domain of RHS, create a new constraint mapping range of LHS with range of RHS, and add both constraints to constraint list if both LHS and RHS are function types}
+    @item{otherwise, it's a type error as LHS and RHS cannot be unified}]}
+]
