@@ -78,22 +78,22 @@
 
                (list @wk{4/15}
                       ""
-                     @elem{Types}
-                     @elem{Types})
+                     @secref{Types}
+                     @secref{Types})
             
                (list @wk{4/22}
                      @secref{A4}
-                     @elem{Type Inference}
-                     @elem{Objects})
+                     @secref{Types}
+                     @elem{Type Inference})
 
                (list @wk{4/29}
                       ""
-                     @elem{Analysis}
-                     @elem{})
+                     @elem{Objects}
+                     @elem{Declarative})
 
                (list @wk{5/6}
                       ""
-                     @elem{Declarative}
+                     @elem{Analysis}
                      @elem{Parser})
 
                (list @wk{5/13}
